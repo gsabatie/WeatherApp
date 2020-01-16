@@ -7,9 +7,14 @@ target 'WeatherApp' do
 
   # Pods for WeatherApp
   pod 'StoryboardLoadable', '0.8.0'
+  pod 'Alamofire', '4.8.2'
+
   target 'WeatherAppTests' do
     inherit! :search_paths
-    # Pods for testing
+    # Pods for tesing
+    pod 'Quick', '2.2.0'
+    pod 'Nimble', '8.0.5'
+    pod "SwiftyMocky", '3.5.0'
   end
 
   target 'WeatherAppUITests' do

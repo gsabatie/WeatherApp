@@ -1,0 +1,12 @@
+sourceryCommand: null
+WeatherAppTests:
+  sources:
+    include:
+    - ./WeatherApp
+  output: ./WeatherAppTests/Mock.generated.swift
+  targets:
+  - WeatherAppTests
+  testable:
+  - WeatherApp
+  import:
+  - UIKit
