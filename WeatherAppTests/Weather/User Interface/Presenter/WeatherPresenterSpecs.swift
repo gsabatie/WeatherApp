@@ -27,12 +27,12 @@ final class WeatherPresenterSpecs: QuickSpec {
 }
 
 extension WeatherPresenter {
-    static func forTest(interactorMock: inout WeatherUseCaseProtocol!
+    static func forTest(interactorMock: inout WeatherUseCaseProtocol!,
                          routerMock: WeatherRouterProtocol?,
                          viewMock: WeatherViewProtocol?) -> WeatherPresenter {
        let presenter = WeatherPresenter(interactor: interactorMock, router: routerMock, view: viewMock)
        
-       return interactor
+       return presenter
     }
 }
 

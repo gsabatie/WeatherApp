@@ -17,7 +17,7 @@ import SwiftyMocky
 final class WeatherInteractorSpecs: QuickSpec {
 
     var interactor: WeatherInteractor!
-    var presenterMock: InteractorOutputProtocolMock!
+    var presenterMock: WeatherInteractorOutputProtocolMock!
 
     override func spec() {
     
@@ -32,6 +32,6 @@ extension WeatherInteractor {
     }
 }
 
-fileprivate extension  WeatherInteractorMock {
+fileprivate extension  WeatherUseCaseProtocolMock {
 
 }
