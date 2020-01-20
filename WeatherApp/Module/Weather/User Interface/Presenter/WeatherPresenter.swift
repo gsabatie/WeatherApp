@@ -25,11 +25,23 @@ final class WeatherPresenter {
     }
 
      // MARK: Instance Methods
+    
 }
 
 // MARK: WeatherPresentationProtocol
 extension WeatherPresenter: WeatherPresentationProtocol {
-
+    func presentWeatherFromCurrentLocation() {
+        self.interactor?.getForecast {
+            (forecast: Forecast?, error: Error?) in
+            guard let forecast: Forecast = forecast, error == nil else {
+                if let error: Error = error {
+                    self.view?.display(errorMessage: error.localizedDescription)
+                }
+                return
+            }
+            self.view?.forecast = forecast
+        }
+    }
 }
 
 // MARK: WeatherInteractorOutputProtocol
@@ -42,4 +54,8 @@ extension WeatherPresenter: WeatherViewEventResponderProtocol {
      func viewDidLoad() {
          
      }
+    
+    func viewWillAppear() {
+        self.presentWeatherFromCurrentLocation()
+    }
 }

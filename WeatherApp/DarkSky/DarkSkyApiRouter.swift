@@ -18,7 +18,7 @@ enum DarkSkyAPIRouter: URLRequestConvertible {
         let path: String = {
             switch self {
             case let .forecast(secret, latitude, longitude, time):
-                var path = "/forecast/\(secret)/\(latitude)/\(longitude)"
+                var path = "/forecast/\(secret)/\(latitude),\(longitude)"
                 if let time: TimeInterval = time  {
                  path += ", \(time)"
                 }

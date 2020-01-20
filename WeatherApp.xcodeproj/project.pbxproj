@@ -39,6 +39,8 @@
 		3694832823D2A91F00AF3A4D /* StaticCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3694832623D2A91F00AF3A4D /* StaticCollectionViewCell.xib */; };
 		3694832B23D2A9FB00AF3A4D /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3694832923D2A9FB00AF3A4D /* WeatherTableViewCell.swift */; };
 		3694832C23D2A9FB00AF3A4D /* WeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3694832A23D2A9FB00AF3A4D /* WeatherTableViewCell.xib */; };
+		3694832F23D2B09000AF3A4D /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3694832E23D2B09000AF3A4D /* Forecast.swift */; };
+		36A2B51223D52497002CE822 /* UITableViewCellRegistrable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A2B51123D52497002CE822 /* UITableViewCellRegistrable.swift */; };
 		36C5638423CEA275005532C1 /* CurrentlyForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C5638323CEA275005532C1 /* CurrentlyForecast.swift */; };
 		36C5638723CEA497005532C1 /* DarkSkySpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C5638623CEA497005532C1 /* DarkSkySpecs.swift */; };
 		750D34CD1C4F4375FFA22796 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A1A0AE94BF49382192F908 /* WeatherViewController.swift */; };
@@ -114,6 +116,8 @@
 		3694832623D2A91F00AF3A4D /* StaticCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StaticCollectionViewCell.xib; sourceTree = "<group>"; };
 		3694832923D2A9FB00AF3A4D /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
 		3694832A23D2A9FB00AF3A4D /* WeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherTableViewCell.xib; sourceTree = "<group>"; };
+		3694832E23D2B09000AF3A4D /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		36A2B51123D52497002CE822 /* UITableViewCellRegistrable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegistrable.swift; sourceTree = "<group>"; };
 		36C5638323CEA275005532C1 /* CurrentlyForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentlyForecast.swift; sourceTree = "<group>"; };
 		36C5638623CEA497005532C1 /* DarkSkySpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkSkySpecs.swift; sourceTree = "<group>"; };
 		44371982E96155AF72233893 /* WeatherRouterSpecs.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WeatherRouterSpecs.swift; sourceTree = "<group>"; };
@@ -268,6 +272,8 @@
 				365D23B923CE7C8900BC6B81 /* Info.plist */,
 				040A343C89FC056739BE63A2 /* Module */,
 				365D23DD23CE98A700BC6B81 /* DarkSky */,
+				3694832E23D2B09000AF3A4D /* Forecast.swift */,
+				36A2B51123D52497002CE822 /* UITableViewCellRegistrable.swift */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -715,12 +721,16 @@
 				"${PODS_ROOT}/Target Support Files/Pods-WeatherApp/Pods-WeatherApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/EasyOSLogger/EasyOSLogger.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/StoryboardLoadable/StoryboardLoadable.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyOSLogger.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StoryboardLoadable.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -744,6 +754,7 @@
 				365D23AC23CE7C8600BC6B81 /* SceneDelegate.swift in Sources */,
 				365D23AE23CE7C8600BC6B81 /* MasterViewController.swift in Sources */,
 				365D23B023CE7C8600BC6B81 /* DetailViewController.swift in Sources */,
+				3694832F23D2B09000AF3A4D /* Forecast.swift in Sources */,
 				36C5638423CEA275005532C1 /* CurrentlyForecast.swift in Sources */,
 				750D34CD1C4F4375FFA22796 /* WeatherViewController.swift in Sources */,
 				E5B862388CAC07306D9F6C6E /* WeatherView.swift in Sources */,
@@ -758,6 +769,7 @@
 				C46151C9E141F195DC5D4C5C /* WeatherProtocols.swift in Sources */,
 				365D23DF23CE98C600BC6B81 /* DarkSkyApiRouter.swift in Sources */,
 				3694830A23D12D1100AF3A4D /* AddressConverter.swift in Sources */,
+				36A2B51223D52497002CE822 /* UITableViewCellRegistrable.swift in Sources */,
 				3694832323D2A8A700AF3A4D /* StaticCollectionTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

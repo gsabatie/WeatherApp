@@ -15,12 +15,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wWc-Wk-WLJ">
+                            <tableView clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wWc-Wk-WLJ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wWc-Wk-WLJ" firstAttribute="leading" secondItem="6dc-4a-9hy" secondAttribute="leading" id="CGp-6B-BJC"/>
                             <constraint firstItem="6dc-4a-9hy" firstAttribute="trailing" secondItem="wWc-Wk-WLJ" secondAttribute="trailing" id="RPn-B4-Qtw"/>
@@ -29,8 +29,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6dc-4a-9hy"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="wWc-Wk-WLJ" id="vLf-xU-yVK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uD3-11-YdQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <customObject id="jye-R3-abw" customClass="WeatherModuleInitializer" customModule="WeatherApp" customModuleProvider="target">
+                    <connections>
+                        <outlet property="weatherViewController" destination="dKX-SH-JxZ" id="fFf-ie-2Zs"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="428.98550724637687" y="111.83035714285714"/>
         </scene>

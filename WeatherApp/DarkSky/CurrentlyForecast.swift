@@ -12,11 +12,11 @@ struct CurrentlyForecast {
     var time: TimeInterval
     var summary: String
     var icon: String
-    var nearestStormDistance: Float
-    var precipIntensity: Double
-    var precipIntensityError: Double
+    var nearestStormDistance: Float?
+    var precipIntensity: Double?
+    var precipIntensityError: Double?
     var precipProbability: Float
-    var precipType: String
+    var precipType: String?
     var temperature: Float
     var apparentTemperature: Float
     var dewPoint: Float
@@ -62,11 +62,11 @@ extension CurrentlyForecast: Decodable {
         let time: TimeInterval = try container.decode(Double.self, forKey: .time)
         let summary: String = try container.decode(String.self, forKey: .summary)
         let icon: String = try container.decode(String.self, forKey: .icon)
-        let nearestStormDistance: Float = try container.decode(Float.self, forKey: .nearestStormDistance)
-        let precipIntensity: Double = try container.decode(Double.self, forKey: .precipIntensity)
-        let precipIntensityError: Double = try container.decode(Double.self, forKey: .precipIntensityError)
+        let nearestStormDistance: Float? = try? container.decode(Float.self, forKey: .nearestStormDistance)
+        let precipIntensity: Double? = try? container.decode(Double.self, forKey: .precipIntensity)
+        let precipIntensityError: Double? = try? container.decode(Double.self, forKey: .precipIntensityError)
         let precipProbability: Float = try container.decode(Float.self, forKey: .precipProbability)
-        let precipType: String = try container.decode(String.self, forKey: .precipType)
+        let precipType: String? = try? container.decode(String.self, forKey: .precipType)
         let temperature: Float = try container.decode(Float.self, forKey: .temperature)
         let apparentTemperature: Float = try container.decode(Float.self, forKey: .apparentTemperature)
         let dewPoint: Float = try container.decode(Float.self, forKey: .dewPoint)

@@ -24,7 +24,7 @@ struct DarkSky {
             .request(
                 DarkSkyAPIRouter
                     .forecast(
-                        secret: "",
+                        secret: "9d5bedc2cb85f28bb204dd982cacac41",
                         latitude: location.latitude,
                         longitude: location.longitude,
                         time: time?.timeIntervalSince1970))

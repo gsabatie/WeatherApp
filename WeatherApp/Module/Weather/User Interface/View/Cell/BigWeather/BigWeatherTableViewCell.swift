@@ -8,14 +8,18 @@
 
 import UIKit
 
-class BigWeatherTableViewCell: UITableViewCell {
-
+class BigWeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
+    
+    static var nibName: String = "BigWeatherTableViewCell"
+    static var identifier: String = "BigWeatherTableViewCell"
+    
     @IBOutlet private weak var mainLabel: UILabel!
     
     @IBOutlet private weak var subLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.backgroundColor = UIColor.clear
         // Initialization code
     }
 
@@ -34,3 +38,5 @@ class BigWeatherTableViewCell: UITableViewCell {
         self.subLabel.text = subLabelText
     }
 }
+
+
