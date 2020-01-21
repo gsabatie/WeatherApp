@@ -8,13 +8,22 @@
 
 import UIKit
 
-class WeatherTableViewCell: UITableViewCell {
+class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     
+    static var nibName: String = "WeatherTableViewCell"
+    static var identifier: String = "WeatherTableViewCell"
+    
+    // MARK: IBOutlet
     @IBOutlet weak private var statusLabel: UILabel!
     @IBOutlet weak private var leftValueLabel: UILabel!
     @IBOutlet weak private var rightValueLabel: UILabel!
     
     @IBOutlet weak private var iconImageView: UIImageView!
+    
+    override  func awakeFromNib() {
+        super.awakeFromNib()
+        self.backgroundColor = UIColor.clear
+    }
     
     func set(statusText: String) {
         self.statusLabel.text = statusText

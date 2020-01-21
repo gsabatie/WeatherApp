@@ -39,6 +39,9 @@ extension WeatherPresenter: WeatherPresentationProtocol {
                 }
                 return
             }
+            if let nextDailyForecasts = forecast.nextDailyForecasts, !nextDailyForecasts.isEmpty {
+                forecast.nextDailyForecasts = Array(nextDailyForecasts.dropFirst())
+            }
             self.view?.forecast = forecast
         }
     }

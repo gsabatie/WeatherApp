@@ -19,7 +19,7 @@ class BigWeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = UIColor.clear
+        self.backgroundColor = UIColor.clear 
         // Initialization code
     }
 
