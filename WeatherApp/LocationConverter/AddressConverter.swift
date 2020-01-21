@@ -17,7 +17,7 @@ struct AddressConverter {
     
     func convert(
         address: String,
-        completion: @escaping (_ location: CLLocationCoordinate2D?, _ error: Error?) -> ()) {
+        completion: @escaping (_ location: CLLocation?, _ error: Error?) -> ()) {
         self.coder.geocodeAddressString(address) {
             (placemarks, error) -> Void in
             guard let placemarks: [CLPlacemark] = placemarks, let placemark = placemarks.first  else {
@@ -25,9 +25,30 @@ struct AddressConverter {
                 return
             }
             
-            completion(placemark.location?.coordinate, nil)
+            completion(placemark.location, nil)
         }
     }
+    
+    /// Function find the name of the locality at the given location
+    /// - Parameters:
+    ///   - location: CLLocation to use to find the locality
+    ///   - completion: (_ addresse: String?, _ error: Error?)
+    func name(
+        location: CLLocation,
+        completion: @escaping (_ addresse: String?, _ error: Error?) -> ()) {
+        self.coder.reverseGeocodeLocation(location) {
+            (placemarks: [CLPlacemark]?, error: Error?) in
+            guard let placemarks: [CLPlacemark]  = placemarks else {
+                completion(nil, error)
+                return
+            }
+            
+            let localities: [String] = placemarks.compactMap { $0.locality }
+            
+            completion(localities.first, nil)
+        }
+    }
+    
     
     /// Function find the localities associated with the given string
     /// - Parameters:

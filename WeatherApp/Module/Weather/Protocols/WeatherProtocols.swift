@@ -38,7 +38,7 @@ protocol WeatherUseCaseProtocol: class {
     
     func getForecast(completion: @escaping ForecastBlock)
     func getForecast(locality: String, completion: @escaping ForecastBlock)
-    func getForeCast(location:CLLocationCoordinate2D, completion: @escaping ForecastBlock)
+    func getForeCast(location: CLLocation, completion: @escaping ForecastBlock)
 }
 
 //sourcery: AutoMockable

@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import EasyOSLogger
 
 final class WeatherInteractor: NSObject {
     
@@ -26,7 +27,7 @@ final class WeatherInteractor: NSObject {
             if let location: CLLocation = self.currentLocation,
                 let completion: ForecastBlock = self.currentLoactionForecastBlock
             {
-                self.getForeCast(location: location.coordinate, completion: completion)
+                self.getForeCast(location: location, completion: completion)
             }
         }
     }
@@ -56,7 +57,7 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
     
     func getForecast(completion: @escaping ForecastBlock) {
         if let location: CLLocation = self.currentLocation {
-            self.getForeCast(location: location.coordinate, completion: completion)
+            self.getForeCast(location: location, completion: completion)
         } else {
             self.locationManager.requestLocation()
             self.currentLoactionForecastBlock = completion
@@ -66,8 +67,8 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
     }
     
     func getForecast(locality: String, completion: @escaping ForecastBlock) {
-        self.addressConverter.convert(address: locality) { (location: CLLocationCoordinate2D?, error: Error?) in
-            guard let location: CLLocationCoordinate2D = location, error == nil else {
+        self.addressConverter.convert(address: locality) { (location: CLLocation?, error: Error?) in
+            guard let location: CLLocation = location, error == nil else {
                 completion(nil, error)
                 return
             }
@@ -77,7 +78,7 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
         
     }
     
-    func getForeCast(location:CLLocationCoordinate2D, completion: @escaping ForecastBlock) {
+    func getForeCast(location: CLLocation, completion: @escaping ForecastBlock) {
         self.darkSkyService.getForecast(location: location, time: nil) {
             (forecastResponse: ForecastRequestResponse?, error: Error?) in
             guard let forecastResponse:ForecastRequestResponse = forecastResponse,
@@ -86,10 +87,21 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
                 completion(nil, error)
                 return
             }
-            let forecast: Forecast = Forecast(request: forecastResponse)
-            
-            self.realmManager.save(forecast: forecast)
-            completion(forecast, nil)
+            var forecast: Forecast = Forecast(request: forecastResponse)
+            self.addressConverter.name(location: location) {
+                (locality: String?, error: Error?) in
+                if let error = error {
+                    Log.error(error.localizedDescription)
+                      completion(nil, error)
+                    return
+                }
+                if let locality = locality  {
+                    forecast.locality = locality
+                self.realmManager.save(forecast: forecast)
+                completion(forecast, nil)
+                    return
+                }
+            }
         }
     }
 }

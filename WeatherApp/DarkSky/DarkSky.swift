@@ -16,7 +16,7 @@ import Alamofire
 struct DarkSky {
     
     func getForecast(
-        location: CLLocationCoordinate2D,
+        location: CLLocation,
         time: Date?,
         completion: @escaping (_ response: ForecastRequestResponse?, _ error: Error?) -> ()
     ) {
@@ -25,8 +25,8 @@ struct DarkSky {
                 DarkSkyAPIRouter
                     .forecast(
                         secret: "9d5bedc2cb85f28bb204dd982cacac41",
-                        latitude: location.latitude,
-                        longitude: location.longitude,
+                        latitude: location.coordinate.latitude,
+                        longitude: location.coordinate.longitude,
                         time: time?.timeIntervalSince1970))
             .responseJSON { (response: DataResponse<Any>) in
                 Log.debug(response.debugDescription, category: .network)

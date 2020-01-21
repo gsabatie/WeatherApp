@@ -23,6 +23,7 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     
     var forecast: Forecast? {
         didSet {
+            self.title = self.forecast?.locality
             self.tableView.reloadData()
         }
     }
@@ -37,6 +38,13 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             UIColor(red: 0, green: 115/255, blue: 164/255, alpha: 1.0).cgColor
         ]
         self.view.layer.insertSublayer(gradientLayer, at: 0)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: nil, action: nil)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
