@@ -32,7 +32,10 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [UIColor(red: 0, green: 51/255, blue: 115/255, alpha: 1.0).cgColor, UIColor(red: 0, green: 115/255, blue: 164/255, alpha: 1.0).cgColor]
+        gradientLayer.colors = [
+            UIColor(red: 0, green: 51/255, blue: 115/255, alpha: 1.0).cgColor,
+            UIColor(red: 0, green: 115/255, blue: 164/255, alpha: 1.0).cgColor
+        ]
         self.view.layer.insertSublayer(gradientLayer, at: 0)
         
         self.tableView.delegate = self

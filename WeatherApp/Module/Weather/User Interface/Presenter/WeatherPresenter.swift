@@ -33,7 +33,7 @@ extension WeatherPresenter: WeatherPresentationProtocol {
     func presentWeatherFromCurrentLocation() {
         self.interactor?.getForecast {
             (forecast: Forecast?, error: Error?) in
-            guard let forecast: Forecast = forecast, error == nil else {
+            guard var forecast: Forecast = forecast, error == nil else {
                 if let error: Error = error {
                     self.view?.display(errorMessage: error.localizedDescription)
                 }
@@ -55,7 +55,14 @@ extension WeatherPresenter: WeatherInteractorOutputProtocol {
 // MARK: WeatherViewEventResponderProtocol
 extension WeatherPresenter: WeatherViewEventResponderProtocol {
      func viewDidLoad() {
-         
+        if var storredForecast = self.interactor?.getStoredForecast(),
+            let nextDailyForecasts = storredForecast.nextDailyForecasts,
+            !nextDailyForecasts.isEmpty
+        {
+            storredForecast.nextDailyForecasts = Array(nextDailyForecasts.dropFirst())
+            self.view?.forecast = storredForecast
+        }
+            
      }
     
     func viewWillAppear() {

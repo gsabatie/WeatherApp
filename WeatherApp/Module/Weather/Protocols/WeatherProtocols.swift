@@ -33,7 +33,9 @@ protocol WeatherPresentationProtocol: class {
 
 //sourcery: AutoMockable
 protocol WeatherUseCaseProtocol: class {
-
+    
+    func getStoredForecast() -> Forecast?
+    
     func getForecast(completion: @escaping ForecastBlock)
     func getForecast(locality: String, completion: @escaping ForecastBlock)
     func getForeCast(location:CLLocationCoordinate2D, completion: @escaping ForecastBlock)

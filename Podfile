@@ -9,6 +9,7 @@ target 'WeatherApp' do
   pod 'StoryboardLoadable', '0.8.0'
   pod 'Alamofire', '4.8.2'
   pod 'EasyOSLogger', '0.1.1'
+  pod 'RealmSwift', '4.3.1'
 
   target 'WeatherAppTests' do
     inherit! :search_paths

@@ -8,12 +8,11 @@
 
 import Foundation
 import CoreLocation
-import RealmSwift
 
-class Forecast {
+struct Forecast {
     var date: Date = Date()
     var location: CLLocationCoordinate2D = CLLocationCoordinate2D()
-    var locality: String?
+    var locality: String = ""
     var summary: String = ""
     var minTemperature: Float = 0
     var maxTemperature: Float = 0
@@ -39,6 +38,38 @@ class Forecast {
             request.daily?.compactMap {
             let dailyforecast:Forecast = Forecast(dailyForcastResponse: $0)
             return dailyforecast
+        }
+    }
+    
+    init(dailyForecastFromDB: DailyForecasDatabaseRepresentation) {
+         self.date = dailyForecastFromDB.date
+              
+               self.summary = dailyForecastFromDB.summary
+               self.minTemperature = dailyForecastFromDB.minTemperature
+               self.maxTemperature = dailyForecastFromDB.maxTemperature
+    }
+    
+    init(forecastFromDB: ForecasDatabaseRepresentation) {
+        self.date = forecastFromDB.date
+        self.location =
+            CLLocationCoordinate2D(
+                latitude: forecastFromDB.latitude,
+                longitude: forecastFromDB.longitude)
+        self.locality = forecastFromDB.locality
+        self.summary = forecastFromDB.summary
+        self.currentTemperature = forecastFromDB.currentTemperature
+        
+        if !forecastFromDB.nextDailyForecasts.isEmpty {
+            self.nextDailyForecasts = [Forecast]()
+            forecastFromDB.nextDailyForecasts.forEach {
+                self.nextDailyForecasts?.append(Forecast(dailyForecastFromDB: $0))
+            }
+        }
+        if !forecastFromDB.nextHourlyForecasts.isEmpty {
+            self.nextHourlyForecasts = [Forecast]()
+            forecastFromDB.nextHourlyForecasts.forEach {
+                self.nextHourlyForecasts?.append(Forecast(dailyForecastFromDB: $0))
+            }
         }
     }
     

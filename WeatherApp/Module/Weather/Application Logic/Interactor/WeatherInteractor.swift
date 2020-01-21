@@ -18,6 +18,7 @@ final class WeatherInteractor: NSObject {
     let addressConverter: AddressConverter
     let darkSkyService: DarkSky
     let locationManager: CLLocationManager
+    let realmManager: RealmManager
     
     //MARK: private variable
     private var currentLocation: CLLocation? {
@@ -38,6 +39,7 @@ final class WeatherInteractor: NSObject {
         self.addressConverter = AddressConverter()
         self.darkSkyService = DarkSky()
         self.locationManager = CLLocationManager()
+        self.realmManager = RealmManager()
         
         super.init()
         self.locationManager.delegate = self
@@ -47,6 +49,11 @@ final class WeatherInteractor: NSObject {
 
 // MARK: WeatherUseCaseProtocol
 extension WeatherInteractor: WeatherUseCaseProtocol {
+    
+    func getStoredForecast() -> Forecast? {
+        return self.realmManager.getLatestForecast()
+    }
+    
     func getForecast(completion: @escaping ForecastBlock) {
         if let location: CLLocation = self.currentLocation {
             self.getForeCast(location: location.coordinate, completion: completion)
@@ -80,8 +87,9 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
                 return
             }
             let forecast: Forecast = Forecast(request: forecastResponse)
-            completion(forecast, nil)
             
+            self.realmManager.save(forecast: forecast)
+            completion(forecast, nil)
         }
     }
 }
