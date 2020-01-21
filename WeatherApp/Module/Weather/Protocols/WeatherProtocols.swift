@@ -8,14 +8,18 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 typealias ForecastBlock = (_ forecast: Forecast?, _ error: Error?) -> ()
+typealias AutoCompletionBlock = (_ matchedText: [MKLocalSearchCompletion]?, _ error: Error?) -> ()
 
 //sourcery: AutoMockable
 protocol WeatherViewProtocol: class{
     var output: WeatherViewEventResponderProtocol? {get set}
     
     var forecast: Forecast? {get set}
+    
+    var matchedAddresses: [MKLocalSearchCompletion]? {get set}
     
     func display(errorMessage: String)
 }
@@ -24,6 +28,8 @@ protocol WeatherViewProtocol: class{
 protocol WeatherViewEventResponderProtocol {
     func viewDidLoad()
     func viewWillAppear()
+    
+    func searchLocality(text: String)
 }
 
 //sourcery: AutoMockable
@@ -34,6 +40,8 @@ protocol WeatherPresentationProtocol: class {
 //sourcery: AutoMockable
 protocol WeatherUseCaseProtocol: class {
     
+    func getMatchedLocalitiesFrom(text: String, completion: @escaping AutoCompletionBlock)
+    
     func getStoredForecast() -> Forecast?
     
     func getForecast(completion: @escaping ForecastBlock)
@@ -43,7 +51,7 @@ protocol WeatherUseCaseProtocol: class {
 
 //sourcery: AutoMockable
 protocol WeatherInteractorOutputProtocol: class {
-
+  
 }
 
 //sourcery: AutoMockable

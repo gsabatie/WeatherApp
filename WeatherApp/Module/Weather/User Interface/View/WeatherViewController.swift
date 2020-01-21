@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 import StoryboardLoadable
 
@@ -21,10 +22,22 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     // MARK: Instance variable
     var dateFormatter:DateFormatter = DateFormatter()
     
+    private var searchResultsTableController: SearchResultTableViewController!
+    
     var forecast: Forecast? {
         didSet {
             self.title = self.forecast?.locality
             self.tableView.reloadData()
+        }
+    }
+    
+     var matchedAddresses: [MKLocalSearchCompletion]? {
+        didSet {
+            if let matchedAddresses: [MKLocalSearchCompletion] =  self.matchedAddresses {
+                self.searchResultsTableController.addresses = matchedAddresses
+            } else {
+                 self.searchResultsTableController.addresses = [MKLocalSearchCompletion]()
+            }
         }
     }
     // MARK: Lifecycle
@@ -45,6 +58,15 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
+        
+        self.searchResultsTableController =
+            self.storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as? SearchResultTableViewController
+        
+        let search = UISearchController(searchResultsController: self.searchResultsTableController)
+        search.obscuresBackgroundDuringPresentation = false
+        search.searchBar.placeholder = "Locality"
+        search.searchResultsUpdater = self
+        navigationItem.searchController = search
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -157,6 +179,17 @@ extension WeatherViewController: UITableViewDataSource {
         }
         let cell = self.tableView.dequeueReusableCell(withIdentifier: BigWeatherTableViewCell.identifier, for: indexPath)
         return cell
+    }
+
+}
+
+// MARK: - Extension UISearchResultsUpdating
+extension WeatherViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let strippedString =
+            searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
+        self.output?.searchLocality(text: strippedString)
     }
     
     

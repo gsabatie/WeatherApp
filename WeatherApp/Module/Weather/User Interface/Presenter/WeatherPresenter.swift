@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 final class WeatherPresenter {
 
@@ -49,7 +50,12 @@ extension WeatherPresenter: WeatherPresentationProtocol {
 
 // MARK: WeatherInteractorOutputProtocol
 extension WeatherPresenter: WeatherInteractorOutputProtocol {
-
+    func searchLocality(text: String) {
+        self.interactor?.getMatchedLocalitiesFrom(text: text) {
+            (addresses: [MKLocalSearchCompletion]?, error: Error?) in
+           self.view?.matchedAddresses = addresses
+        }
+    }
 }
 
 // MARK: WeatherViewEventResponderProtocol

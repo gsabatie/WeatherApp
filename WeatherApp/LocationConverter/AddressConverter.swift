@@ -8,12 +8,17 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 
 /// Struct convert an address to  longitude and latitude
-struct AddressConverter {
+final class AddressConverter: NSObject {
     
     let coder: CLGeocoder = CLGeocoder()
+    
+    var searchCompleter = MKLocalSearchCompleter()
+    
+    private var autocompleteBlock: AutoCompletionBlock?
     
     func convert(
         address: String,
@@ -56,17 +61,26 @@ struct AddressConverter {
     ///   - completion: (_ addresses: [String]?, _ error: Error?)
     func autoComplete(
         locality: String,
-        completion: @escaping (_ addresses: [String]?, _ error: Error?) -> ()) {
-        self.coder.geocodeAddressString(locality) {
-            (placemarks: [CLPlacemark]?, error: Error?) in
-            guard let placemarks: [CLPlacemark]  = placemarks else {
-                completion(nil, error)
-                return
-            }
-            
-            let localities: [String] = placemarks.compactMap { $0.locality }
-            
-            completion(localities, nil)
+        completion: @escaping (_ addresses: [MKLocalSearchCompletion]?, _ error: Error?) -> ()) {
+        
+        searchCompleter.delegate = self
+        
+        searchCompleter.resultTypes = .address
+        searchCompleter.queryFragment = locality
+        self.autocompleteBlock = completion
+    }
+}
+
+extension AddressConverter: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        if  let completion = self.autocompleteBlock {
+            completion(completer.results, nil)
+        }
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        if  let completion = self.autocompleteBlock {
+            completion(nil, error)
         }
     }
 }

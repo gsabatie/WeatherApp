@@ -13,6 +13,9 @@
 		3642612523D6E53E00BEA3AD /* ForecasDatabaseRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642612223D6E53E00BEA3AD /* ForecasDatabaseRepresentation.swift */; };
 		3642612623D6E53E00BEA3AD /* DailyForecasDatabaseRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642612323D6E53E00BEA3AD /* DailyForecasDatabaseRepresentation.swift */; };
 		3642612723D6E53E00BEA3AD /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642612423D6E53E00BEA3AD /* RealmManager.swift */; };
+		3642612923D6F41600BEA3AD /* SearchResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642612823D6F41600BEA3AD /* SearchResultTableViewController.swift */; };
+		3642612C23D6F68E00BEA3AD /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642612A23D6F68E00BEA3AD /* SearchResultTableViewCell.swift */; };
+		3642612D23D6F68E00BEA3AD /* SearchResultTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3642612B23D6F68E00BEA3AD /* SearchResultTableViewCell.xib */; };
 		365D23AA23CE7C8600BC6B81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365D23A923CE7C8600BC6B81 /* AppDelegate.swift */; };
 		365D23AC23CE7C8600BC6B81 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365D23AB23CE7C8600BC6B81 /* SceneDelegate.swift */; };
 		365D23AE23CE7C8600BC6B81 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365D23AD23CE7C8600BC6B81 /* MasterViewController.swift */; };
@@ -87,6 +90,9 @@
 		3642612223D6E53E00BEA3AD /* ForecasDatabaseRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecasDatabaseRepresentation.swift; sourceTree = "<group>"; };
 		3642612323D6E53E00BEA3AD /* DailyForecasDatabaseRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyForecasDatabaseRepresentation.swift; sourceTree = "<group>"; };
 		3642612423D6E53E00BEA3AD /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		3642612823D6F41600BEA3AD /* SearchResultTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewController.swift; sourceTree = "<group>"; };
+		3642612A23D6F68E00BEA3AD /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
+		3642612B23D6F68E00BEA3AD /* SearchResultTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultTableViewCell.xib; sourceTree = "<group>"; };
 		365D23A623CE7C8600BC6B81 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		365D23A923CE7C8600BC6B81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		365D23AB23CE7C8600BC6B81 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -210,6 +216,9 @@
 			isa = PBXGroup;
 			children = (
 				3694830F23D282E000AF3A4D /* WeatherViewController.storyboard */,
+				3642612823D6F41600BEA3AD /* SearchResultTableViewController.swift */,
+				3642612A23D6F68E00BEA3AD /* SearchResultTableViewCell.swift */,
+				3642612B23D6F68E00BEA3AD /* SearchResultTableViewCell.xib */,
 				A1A1A0AE94BF49382192F908 /* WeatherViewController.swift */,
 				D31746B1ED8E22DA3665E234 /* WeatherView.swift */,
 				3694831523D285FE00AF3A4D /* Cell */,
@@ -618,6 +627,7 @@
 				3694832423D2A8A700AF3A4D /* StaticCollectionTableViewCell.xib in Resources */,
 				3694831423D2844C00AF3A4D /* BigWeatherTableViewCell.xib in Resources */,
 				3694831B23D2864B00AF3A4D /* MovableCollectionTableViewCell.xib in Resources */,
+				3642612D23D6F68E00BEA3AD /* SearchResultTableViewCell.xib in Resources */,
 				3694831F23D287BB00AF3A4D /* MovableCollectionViewCell.xib in Resources */,
 				365D23B323CE7C8600BC6B81 /* Main.storyboard in Resources */,
 				3694832823D2A91F00AF3A4D /* StaticCollectionViewCell.xib in Resources */,
@@ -771,11 +781,13 @@
 				3694830723D0F37B00AF3A4D /* ForecastRequestResponse.swift in Sources */,
 				365D23AC23CE7C8600BC6B81 /* SceneDelegate.swift in Sources */,
 				365D23AE23CE7C8600BC6B81 /* MasterViewController.swift in Sources */,
+				3642612C23D6F68E00BEA3AD /* SearchResultTableViewCell.swift in Sources */,
 				365D23B023CE7C8600BC6B81 /* DetailViewController.swift in Sources */,
 				3694832F23D2B09000AF3A4D /* Forecast.swift in Sources */,
 				36C5638423CEA275005532C1 /* CurrentlyForecast.swift in Sources */,
 				750D34CD1C4F4375FFA22796 /* WeatherViewController.swift in Sources */,
 				E5B862388CAC07306D9F6C6E /* WeatherView.swift in Sources */,
+				3642612923D6F41600BEA3AD /* SearchResultTableViewController.swift in Sources */,
 				3642612723D6E53E00BEA3AD /* RealmManager.swift in Sources */,
 				BEE538222F8E30A13044231B /* WeatherPresenter.swift in Sources */,
 				2F9A85EB6FF5CB08029FE4B4 /* WeatherInteractor.swift in Sources */,

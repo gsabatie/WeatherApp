@@ -51,6 +51,10 @@ final class WeatherInteractor: NSObject {
 // MARK: WeatherUseCaseProtocol
 extension WeatherInteractor: WeatherUseCaseProtocol {
     
+    func getMatchedLocalitiesFrom(text: String, completion: @escaping AutoCompletionBlock) {
+        self.addressConverter.autoComplete(locality: text, completion: completion)
+    }
+    
     func getStoredForecast() -> Forecast? {
         return self.realmManager.getLatestForecast()
     }
