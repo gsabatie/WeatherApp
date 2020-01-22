@@ -22,6 +22,8 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     // MARK: Instance variable
     var dateFormatter:DateFormatter = DateFormatter()
     
+    private var searchController: UISearchController!
+    
     private var searchResultsTableController: SearchResultTableViewController!
     
     var forecast: Forecast? {
@@ -31,12 +33,12 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         }
     }
     
-     var matchedAddresses: [MKLocalSearchCompletion]? {
+    var matchedAddresses: [MKLocalSearchCompletion]? {
         didSet {
             if let matchedAddresses: [MKLocalSearchCompletion] =  self.matchedAddresses {
                 self.searchResultsTableController.addresses = matchedAddresses
             } else {
-                 self.searchResultsTableController.addresses = [MKLocalSearchCompletion]()
+                self.searchResultsTableController.addresses = [MKLocalSearchCompletion]()
             }
         }
     }
@@ -50,9 +52,9 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             UIColor(red: 0, green: 51/255, blue: 115/255, alpha: 1.0).cgColor,
             UIColor(red: 0, green: 115/255, blue: 164/255, alpha: 1.0).cgColor
         ]
+        
         self.view.layer.insertSublayer(gradientLayer, at: 0)
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: nil, action: nil)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -61,12 +63,13 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         
         self.searchResultsTableController =
             self.storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as? SearchResultTableViewController
+        self.searchResultsTableController.delegate = self
         
-        let search = UISearchController(searchResultsController: self.searchResultsTableController)
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Locality"
-        search.searchResultsUpdater = self
-        navigationItem.searchController = search
+        self.searchController = UISearchController(searchResultsController: self.searchResultsTableController)
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Locality"
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -100,8 +103,10 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         cell.set(leftValueText: "\(Int(forecast.minTemperature))")
         cell.set(rightValueText: "\(Int(forecast.maxTemperature))")
         cell.set(statusText: self.dateFormatter.string(from: forecast.date))
+        if let image =  UIImage(named: forecast.iconName) {
+            cell.set(iconImage: image)
+        }
     }
-    
     func configureCellsWithPlaceholder() {
         
     }
@@ -180,7 +185,6 @@ extension WeatherViewController: UITableViewDataSource {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: BigWeatherTableViewCell.identifier, for: indexPath)
         return cell
     }
-
 }
 
 // MARK: - Extension UISearchResultsUpdating
@@ -191,8 +195,21 @@ extension WeatherViewController: UISearchResultsUpdating {
             searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
         self.output?.searchLocality(text: strippedString)
     }
-    
-    
+}
+
+// MARK: - Extension SearchResultTableViewControllerDelegate
+extension WeatherViewController: SearchResultTableViewControllerDelegate {
+    func didSelect(
+        _ searchResultTableViewController: SearchResultTableViewController,
+        localSearchCompletion: MKLocalSearchCompletion
+    ) {
+        self.navigationItem.searchController?.dismiss(animated: true, completion: nil)
+        self.navigationItem.searchController?.searchBar.searchTextField.text = ""
+        self.output?
+            .didSelect(
+                searchResultTableViewController,
+                localSearchCompletion: localSearchCompletion)
+    }
 }
 
 

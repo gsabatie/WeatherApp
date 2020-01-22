@@ -15,12 +15,15 @@ final class DailyForecasDatabaseRepresentation: Object {
     @objc dynamic var minTemperature: Float = 0
     @objc dynamic var maxTemperature: Float = 0
     
+    @objc dynamic var iconName: String = ""
+    
     init(dailyForecast: Forecast) {
         self.date = dailyForecast.date
         
         self.summary = dailyForecast.summary
         self.minTemperature = dailyForecast.minTemperature
         self.maxTemperature = dailyForecast.maxTemperature
+        self.iconName = dailyForecast.iconName
     }
     
     required init() {
@@ -28,5 +31,6 @@ final class DailyForecasDatabaseRepresentation: Object {
         self.summary = ""
         self.minTemperature = 0
         self.maxTemperature = 0
+        self.iconName = ""
     }
 }

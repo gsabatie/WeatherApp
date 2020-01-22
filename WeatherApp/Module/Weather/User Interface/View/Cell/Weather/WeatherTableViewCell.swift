@@ -23,6 +23,7 @@ class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     override  func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = UIColor.clear
+        self.iconImageView.tintColor = UIColor.white
     }
     
     func set(statusText: String) {
@@ -37,6 +38,7 @@ class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
         self.rightValueLabel.text = rightValueText
     }
     func set(iconImage: UIImage) {
-        self.iconImageView.image = iconImage
+
+        self.iconImageView.image = iconImage.withRenderingMode(.alwaysTemplate)
     }
 }

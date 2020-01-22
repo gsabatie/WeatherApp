@@ -55,6 +55,22 @@ final class AddressConverter: NSObject {
     }
     
     
+    func locationfrom(
+        localSearchCompletion: MKLocalSearchCompletion,
+        completion: @escaping (_ location: CLLocation?, _ error: Error?) -> ())
+    {
+        let request = MKLocalSearch.Request(completion: localSearchCompletion)
+        let search = MKLocalSearch(request: request)
+        search.start { (response: MKLocalSearch.Response?, error: Error?) in
+            if let error = error {
+                completion(nil, error)
+            }
+            else if let mapItems = response?.mapItems {
+                completion(mapItems.first?.placemark.location, nil)
+            }
+        }
+    }
+    
     /// Function find the localities associated with the given string
     /// - Parameters:
     ///   - locality: String to look for

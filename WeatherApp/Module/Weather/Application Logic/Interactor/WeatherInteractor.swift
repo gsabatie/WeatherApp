@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import EasyOSLogger
+import MapKit
 
 final class WeatherInteractor: NSObject {
     
@@ -82,10 +83,24 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
         
     }
     
+    func getForecast(
+        localSearchCompletion: MKLocalSearchCompletion,
+        completion: @escaping ForecastBlock)
+    {
+        self.addressConverter.locationfrom(localSearchCompletion: localSearchCompletion) {
+            (location: CLLocation?, error: Error?) in
+            if let location: CLLocation = location {
+                self.getForeCast(location: location, completion: completion)
+                return
+            }
+            completion(nil, nil)
+        }
+    }
+    
     func getForeCast(location: CLLocation, completion: @escaping ForecastBlock) {
         self.darkSkyService.getForecast(location: location, time: nil) {
             (forecastResponse: ForecastRequestResponse?, error: Error?) in
-            guard let forecastResponse:ForecastRequestResponse = forecastResponse,
+            guard let forecastResponse: ForecastRequestResponse = forecastResponse,
                 error == nil else
             {
                 completion(nil, error)

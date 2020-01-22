@@ -10,22 +10,23 @@ import Foundation
 import MapKit
 
 final class WeatherPresenter {
-
+    
     // MARK: Dependency inversion variable 
     weak var view: WeatherViewProtocol?
     var router: WeatherRouterProtocol?
     var interactor: WeatherUseCaseProtocol?
-
+    
     // MARK: Instance Variable
-
+    var isSearchModeActivated: Bool = false
+    
     // MARK: Constructors
     init(interactor: WeatherUseCaseProtocol? = nil, router: WeatherRouterProtocol? = nil, view: WeatherViewProtocol? = nil) {
         self.interactor = interactor
         self.router = router
         self.view = view
     }
-
-     // MARK: Instance Methods
+    
+    // MARK: Instance Methods
     
 }
 
@@ -46,21 +47,48 @@ extension WeatherPresenter: WeatherPresentationProtocol {
             self.view?.forecast = forecast
         }
     }
-}
-
-// MARK: WeatherInteractorOutputProtocol
-extension WeatherPresenter: WeatherInteractorOutputProtocol {
-    func searchLocality(text: String) {
-        self.interactor?.getMatchedLocalitiesFrom(text: text) {
-            (addresses: [MKLocalSearchCompletion]?, error: Error?) in
-           self.view?.matchedAddresses = addresses
+    
+    func presentWeatherFrom(localSearchCompletion: MKLocalSearchCompletion) {
+        self.interactor?.getForecast(localSearchCompletion: localSearchCompletion) {
+            (forecast: Forecast?, error: Error?) in
+            guard var forecast: Forecast = forecast, error == nil else {
+                if let error: Error = error {
+                    self.view?.display(errorMessage: error.localizedDescription)
+                }
+                return
+            }
+            if let nextDailyForecasts = forecast.nextDailyForecasts, !nextDailyForecasts.isEmpty {
+                forecast.nextDailyForecasts = Array(nextDailyForecasts.dropFirst())
+            }
+            self.view?.forecast = forecast
         }
     }
 }
 
+// MARK: WeatherInteractorOutputProtocol
+extension WeatherPresenter: WeatherInteractorOutputProtocol {
+    
+}
+
 // MARK: WeatherViewEventResponderProtocol
 extension WeatherPresenter: WeatherViewEventResponderProtocol {
-     func viewDidLoad() {
+
+    
+    func searchLocality(text: String) {
+        isSearchModeActivated = true
+        self.interactor?.getMatchedLocalitiesFrom(text: text) {
+            (addresses: [MKLocalSearchCompletion]?, error: Error?) in
+            self.view?.matchedAddresses = addresses
+        }
+    }
+    
+    
+    
+    func didSelect(_ searchResultTableViewController: SearchResultTableViewController, localSearchCompletion: MKLocalSearchCompletion) {
+        self.presentWeatherFrom(localSearchCompletion: localSearchCompletion)
+    }
+    
+    func viewDidLoad() {
         if var storredForecast = self.interactor?.getStoredForecast(),
             let nextDailyForecasts = storredForecast.nextDailyForecasts,
             !nextDailyForecasts.isEmpty
@@ -68,8 +96,8 @@ extension WeatherPresenter: WeatherViewEventResponderProtocol {
             storredForecast.nextDailyForecasts = Array(nextDailyForecasts.dropFirst())
             self.view?.forecast = storredForecast
         }
-            
-     }
+        
+    }
     
     func viewWillAppear() {
         self.presentWeatherFromCurrentLocation()

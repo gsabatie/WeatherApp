@@ -39,7 +39,12 @@ class SearchResultTableViewCell: UITableViewCell, UITableViewCellRegistrable {
 private extension NSMutableAttributedString {
     func highlightTarget(range:  [NSValue], color: UIColor){
 
-        self.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: range[0].rangeValue)
+        if !range.isEmpty {
+        self.addAttribute(
+            NSAttributedString.Key.foregroundColor,
+            value: color,
+            range: range[0].rangeValue)
+        }
             
     }
 }

@@ -18,6 +18,8 @@ struct Forecast {
     var maxTemperature: Float = 0
     var currentTemperature: Float = 0
     
+    var iconName: String = ""
+    
     var nextHourlyForecasts: [Forecast]?
     var nextDailyForecasts: [Forecast]?
     
@@ -26,6 +28,7 @@ struct Forecast {
         self.summary = dailyForcastResponse.summary
         self.minTemperature = dailyForcastResponse.temperatureMin
         self.maxTemperature = dailyForcastResponse.temperatureMax
+        self.iconName = dailyForcastResponse.icon
     }
     
     init(request: ForecastRequestResponse) {
@@ -36,17 +39,18 @@ struct Forecast {
         
         self.nextDailyForecasts =
             request.daily?.compactMap {
-            let dailyforecast:Forecast = Forecast(dailyForcastResponse: $0)
-            return dailyforecast
+                let dailyforecast:Forecast = Forecast(dailyForcastResponse: $0)
+                return dailyforecast
         }
     }
     
     init(dailyForecastFromDB: DailyForecasDatabaseRepresentation) {
-         self.date = dailyForecastFromDB.date
-              
-               self.summary = dailyForecastFromDB.summary
-               self.minTemperature = dailyForecastFromDB.minTemperature
-               self.maxTemperature = dailyForecastFromDB.maxTemperature
+        self.date = dailyForecastFromDB.date
+        
+        self.summary = dailyForecastFromDB.summary
+        self.minTemperature = dailyForecastFromDB.minTemperature
+        self.maxTemperature = dailyForecastFromDB.maxTemperature
+        self.iconName = dailyForecastFromDB.iconName
     }
     
     init(forecastFromDB: ForecasDatabaseRepresentation) {

@@ -22,10 +22,11 @@ protocol WeatherViewProtocol: class{
     var matchedAddresses: [MKLocalSearchCompletion]? {get set}
     
     func display(errorMessage: String)
+
 }
 
 //sourcery: AutoMockable
-protocol WeatherViewEventResponderProtocol {
+protocol WeatherViewEventResponderProtocol: SearchResultTableViewControllerDelegate {
     func viewDidLoad()
     func viewWillAppear()
     
@@ -43,6 +44,10 @@ protocol WeatherUseCaseProtocol: class {
     func getMatchedLocalitiesFrom(text: String, completion: @escaping AutoCompletionBlock)
     
     func getStoredForecast() -> Forecast?
+    
+    func getForecast(
+        localSearchCompletion: MKLocalSearchCompletion,
+        completion: @escaping ForecastBlock)
     
     func getForecast(completion: @escaping ForecastBlock)
     func getForecast(locality: String, completion: @escaping ForecastBlock)
