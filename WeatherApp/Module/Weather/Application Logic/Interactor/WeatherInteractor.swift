@@ -28,7 +28,17 @@ final class WeatherInteractor: NSObject {
             if let location: CLLocation = self.currentLocation,
                 let completion: ForecastBlock = self.currentLoactionForecastBlock
             {
-                self.getForeCast(location: location, completion: completion)
+                self.getForecast(location: location, completion: completion)
+            }
+        }
+    }
+    
+    private var locationError: Error? {
+        didSet {
+            if let error: Error = self.locationError,
+                let completion: ForecastBlock = self.currentLoactionForecastBlock
+            {
+                completion(nil, error)
             }
         }
     }
@@ -60,9 +70,18 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
         return self.realmManager.getLatestForecast()
     }
     
-    func getForecast(completion: @escaping ForecastBlock) {
+    func getLatestForecast(completion: @escaping ForecastBlock) {
+        
+        if let latestStoredForecast: Forecast = self.getStoredForecast() {
+            self.getForecast(
+                location: CLLocation(latitude: latestStoredForecast.location.latitude,
+                                     longitude: latestStoredForecast.location.longitude),
+                completion: completion)
+            return
+        }
+        
         if let location: CLLocation = self.currentLocation {
-            self.getForeCast(location: location, completion: completion)
+            self.getForecast(location: location, completion: completion)
         } else {
             self.locationManager.requestLocation()
             self.currentLoactionForecastBlock = completion
@@ -72,12 +91,12 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
     }
     
     func getForecast(locality: String, completion: @escaping ForecastBlock) {
-        self.addressConverter.convert(address: locality) { (location: CLLocation?, error: Error?) in
+        self.addressConverter.searchLocationFrom(address: locality) { (location: CLLocation?, error: Error?) in
             guard let location: CLLocation = location, error == nil else {
                 completion(nil, error)
                 return
             }
-            self.getForeCast(location: location, completion: completion)
+            self.getForecast(location: location, completion: completion)
         }
         
         
@@ -87,17 +106,17 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
         localSearchCompletion: MKLocalSearchCompletion,
         completion: @escaping ForecastBlock)
     {
-        self.addressConverter.locationfrom(localSearchCompletion: localSearchCompletion) {
+        self.addressConverter.searchLocationfrom(localSearchCompletion: localSearchCompletion) {
             (location: CLLocation?, error: Error?) in
             if let location: CLLocation = location {
-                self.getForeCast(location: location, completion: completion)
+                self.getForecast(location: location, completion: completion)
                 return
             }
             completion(nil, nil)
         }
     }
     
-    func getForeCast(location: CLLocation, completion: @escaping ForecastBlock) {
+    func getForecast(location: CLLocation, completion: @escaping ForecastBlock) {
         self.darkSkyService.getForecast(location: location, time: nil) {
             (forecastResponse: ForecastRequestResponse?, error: Error?) in
             guard let forecastResponse: ForecastRequestResponse = forecastResponse,
@@ -106,8 +125,8 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
                 completion(nil, error)
                 return
             }
-            var forecast: Forecast = Forecast(request: forecastResponse)
-            self.addressConverter.name(location: location) {
+            var forecast: Forecast = Forecast(forecastRequestResponse: forecastResponse)
+            self.addressConverter.searchLocalityFrom(location: location) {
                 (locality: String?, error: Error?) in
                 if let error = error {
                     Log.error(error.localizedDescription)
@@ -137,7 +156,8 @@ extension WeatherInteractor: CLLocationManagerDelegate {
         
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        Log.error(error.localizedDescription)
+        self.locationError = error
     }
 }
 

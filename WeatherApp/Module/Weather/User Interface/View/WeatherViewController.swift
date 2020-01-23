@@ -42,6 +42,7 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             }
         }
     }
+    
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,21 +56,9 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         
         self.view.layer.insertSublayer(gradientLayer, at: 0)
         
-        self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
+        self.configureNavigationController()
         
-        self.searchResultsTableController =
-            self.storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as? SearchResultTableViewController
-        self.searchResultsTableController.delegate = self
-        
-        self.searchController = UISearchController(searchResultsController: self.searchResultsTableController)
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Locality"
-        searchController.searchResultsUpdater = self
-        navigationItem.searchController = searchController
+        self.initializeSearchController()
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -88,11 +77,35 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         self.output?.viewWillAppear()
     }
     
+    func initializeSearchController() {
+        self.searchResultsTableController =
+            self.storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as? SearchResultTableViewController
+        self.searchResultsTableController.delegate = self
+        
+        self.searchController = UISearchController(searchResultsController: self.searchResultsTableController)
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Locality"
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+    }
+    
+    func configureNavigationController() {
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+    }
+    
+    
     func configure(cell: inout BigWeatherTableViewCell, forecast: Forecast?) {
         if let forecast: Forecast = forecast {
-            cell.set(mainLabelText: "\(Int(forecast.currentTemperature))°")
-            cell.set(subLabelText: "\(forecast.summary)")
-            
+            if let currentTemperature: Float = forecast.currentTemperature {
+                cell.set(mainLabelText: "\(Int(currentTemperature))°")
+            }
+            if let summary: String = forecast.summary {
+                cell.set(subLabelText: "\(summary)")
+            }
         } else {
             cell.set(mainLabelText: "N/A°")
             cell.set(subLabelText: "You must accept the location permission")
@@ -100,10 +113,16 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     }
     
     func configure(cell: inout WeatherTableViewCell, forecast: Forecast) {
-        cell.set(leftValueText: "\(Int(forecast.minTemperature))")
-        cell.set(rightValueText: "\(Int(forecast.maxTemperature))")
+        if let minTemperature: Float = forecast.minTemperature {
+            cell.set(leftValueText: "\(Int(minTemperature))")
+        }
+        if let maxTemperature: Float = forecast.minTemperature {
+            cell.set(rightValueText: "\(Int(maxTemperature))")
+        }
         cell.set(statusText: self.dateFormatter.string(from: forecast.date))
-        if let image =  UIImage(named: forecast.iconName) {
+        if let iconName: String = forecast.iconName,
+            let image: UIImage = UIImage(named: iconName)
+        {
             cell.set(iconImage: image)
         }
     }

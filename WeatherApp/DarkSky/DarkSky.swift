@@ -15,6 +15,8 @@ import Alamofire
 /// Struct to wrap the DarkSky Api https://darksky.net/dev/docs#overview
 struct DarkSky {
     
+    private var secret: String = "9d5bedc2cb85f28bb204dd982cacac41"
+    
     func getForecast(
         location: CLLocation,
         time: Date?,
@@ -24,7 +26,7 @@ struct DarkSky {
             .request(
                 DarkSkyAPIRouter
                     .forecast(
-                        secret: "9d5bedc2cb85f28bb204dd982cacac41",
+                        secret: self.secret,
                         latitude: location.coordinate.latitude,
                         longitude: location.coordinate.longitude,
                         time: time?.timeIntervalSince1970))

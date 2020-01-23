@@ -49,9 +49,9 @@ protocol WeatherUseCaseProtocol: class {
         localSearchCompletion: MKLocalSearchCompletion,
         completion: @escaping ForecastBlock)
     
-    func getForecast(completion: @escaping ForecastBlock)
+    func getLatestForecast(completion: @escaping ForecastBlock)
     func getForecast(locality: String, completion: @escaping ForecastBlock)
-    func getForeCast(location: CLLocation, completion: @escaping ForecastBlock)
+    func getForecast(location: CLLocation, completion: @escaping ForecastBlock)
 }
 
 //sourcery: AutoMockable

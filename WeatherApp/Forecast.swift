@@ -12,18 +12,18 @@ import CoreLocation
 struct Forecast {
     var date: Date = Date()
     var location: CLLocationCoordinate2D = CLLocationCoordinate2D()
-    var locality: String = ""
-    var summary: String = ""
-    var minTemperature: Float = 0
-    var maxTemperature: Float = 0
-    var currentTemperature: Float = 0
+    var locality: String?
+    var summary: String?
+    var minTemperature: Float?
+    var maxTemperature: Float?
+    var currentTemperature: Float?
     
-    var iconName: String = ""
+    var iconName: String?
     
     var nextHourlyForecasts: [Forecast]?
     var nextDailyForecasts: [Forecast]?
     
-    init(dailyForcastResponse: DailyForecast) {
+    init(dailyForcastResponse: DailyForecastRequestResponse) {
         self.date = Date(timeIntervalSince1970: dailyForcastResponse.time)
         self.summary = dailyForcastResponse.summary
         self.minTemperature = dailyForcastResponse.temperatureMin
@@ -31,14 +31,14 @@ struct Forecast {
         self.iconName = dailyForcastResponse.icon
     }
     
-    init(request: ForecastRequestResponse) {
+    init(forecastRequestResponse: ForecastRequestResponse) {
         self.location =
-            CLLocationCoordinate2D(latitude: request.latitude, longitude: request.longitude)
-        self.currentTemperature = request.currently.temperature
-        self.summary = request.currently.summary
+            CLLocationCoordinate2D(latitude: forecastRequestResponse.latitude, longitude: forecastRequestResponse.longitude)
+        self.currentTemperature = forecastRequestResponse.currently.temperature
+        self.summary = forecastRequestResponse.currently.summary
         
         self.nextDailyForecasts =
-            request.daily?.compactMap {
+            forecastRequestResponse.daily?.compactMap {
                 let dailyforecast:Forecast = Forecast(dailyForcastResponse: $0)
                 return dailyforecast
         }
@@ -48,8 +48,8 @@ struct Forecast {
         self.date = dailyForecastFromDB.date
         
         self.summary = dailyForecastFromDB.summary
-        self.minTemperature = dailyForecastFromDB.minTemperature
-        self.maxTemperature = dailyForecastFromDB.maxTemperature
+        self.minTemperature = dailyForecastFromDB.minTemperature.value
+        self.maxTemperature = dailyForecastFromDB.maxTemperature.value
         self.iconName = dailyForecastFromDB.iconName
     }
     
@@ -61,7 +61,7 @@ struct Forecast {
                 longitude: forecastFromDB.longitude)
         self.locality = forecastFromDB.locality
         self.summary = forecastFromDB.summary
-        self.currentTemperature = forecastFromDB.currentTemperature
+        self.currentTemperature = forecastFromDB.currentTemperature.value
         
         if !forecastFromDB.nextDailyForecasts.isEmpty {
             self.nextDailyForecasts = [Forecast]()

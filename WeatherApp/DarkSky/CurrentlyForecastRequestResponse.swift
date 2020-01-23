@@ -8,40 +8,45 @@
 
 import Foundation
 
-struct CurrentlyForecast {
+struct CurrentlyForecastRequestResponse {
     var time: TimeInterval
-    var summary: String
-    var icon: String
+    var summary: String?
+    var icon: String?
     var nearestStormDistance: Float?
+    var nearestStormBearing: Float?
     var precipIntensity: Double?
     var precipIntensityError: Double?
-    var precipProbability: Float
+    var precipProbability: Float?
     var precipType: String?
-    var temperature: Float
-    var apparentTemperature: Float
-    var dewPoint: Float
-    var humidity: Float
-    var pressure: Float
-    var windSpeed: Float
-    var windGust: Float
-    var windBearing: Int
-    var cloudCover: Float
-    var uvIndex: Float
-    var visibility: Float
-    var ozone: Float
+    var precipAccumulation: Float?
+    var temperature: Float?
+    var apparentTemperature: Float?
+    var dewPoint: Float?
+    var humidity: Float?
+    var pressure: Float?
+    var windSpeed: Float?
+    var windGust: Float?
+    var windBearing: Int?
+    var cloudCover: Float?
+    var uvIndex: Float?
+    var visibility: Float?
+    var ozone: Float?
+    
 }
 
 
 // MARK: - Extension Decodable
-extension CurrentlyForecast: Decodable {
+extension CurrentlyForecastRequestResponse: Decodable {
     enum keys: String, CodingKey {
         case time = "time"
         case summary = "summary"
         case icon = "icon"
         case nearestStormDistance = "nearestStormDistance"
+        case nearestStormBearing = "nearestStormBearing"
         case precipIntensity = "precipIntensity"
         case precipIntensityError = "precipIntensityError"
         case precipProbability = "precipProbability"
+        case precipAccumulation = "precipAccumulation"
         case precipType = "precipType"
         case temperature = "temperature"
         case apparentTemperature = "apparentTemperature"
@@ -60,35 +65,39 @@ extension CurrentlyForecast: Decodable {
        init(from decoder: Decoder) throws {
            let container = try decoder.container(keyedBy: keys.self)
         let time: TimeInterval = try container.decode(Double.self, forKey: .time)
-        let summary: String = try container.decode(String.self, forKey: .summary)
-        let icon: String = try container.decode(String.self, forKey: .icon)
+        let summary: String? = try container.decode(String.self, forKey: .summary)
+        let icon: String? = try container.decode(String.self, forKey: .icon)
         let nearestStormDistance: Float? = try? container.decode(Float.self, forKey: .nearestStormDistance)
+        let nearestStormBearing: Float? = try? container.decode(Float.self, forKey: .nearestStormBearing)
         let precipIntensity: Double? = try? container.decode(Double.self, forKey: .precipIntensity)
         let precipIntensityError: Double? = try? container.decode(Double.self, forKey: .precipIntensityError)
-        let precipProbability: Float = try container.decode(Float.self, forKey: .precipProbability)
+        let precipProbability: Float? = try container.decode(Float.self, forKey: .precipProbability)
         let precipType: String? = try? container.decode(String.self, forKey: .precipType)
-        let temperature: Float = try container.decode(Float.self, forKey: .temperature)
-        let apparentTemperature: Float = try container.decode(Float.self, forKey: .apparentTemperature)
-        let dewPoint: Float = try container.decode(Float.self, forKey: .dewPoint)
-        let humidity: Float = try container.decode(Float.self, forKey: .humidity)
-        let pressure: Float = try container.decode(Float.self, forKey: .pressure)
-        let windSpeed: Float = try container.decode(Float.self, forKey: .windSpeed)
-        let windGust: Float = try container.decode(Float.self, forKey: .windGust)
-        let windBearing: Int = try container.decode(Int.self, forKey: .windBearing)
-        let cloudCover: Float = try container.decode(Float.self, forKey: .cloudCover)
-        let uvIndex: Float = try container.decode(Float.self, forKey: .uvIndex)
-        let visibility: Float = try container.decode(Float.self, forKey: .visibility)
-        let ozone: Float = try container.decode(Float.self, forKey: .ozone)
+        let precipAccumulation: Float? = try? container.decode(Float.self, forKey: .precipAccumulation)
+        let temperature: Float? = try container.decode(Float.self, forKey: .temperature)
+        let apparentTemperature: Float? = try container.decode(Float.self, forKey: .apparentTemperature)
+        let dewPoint: Float? = try container.decode(Float.self, forKey: .dewPoint)
+        let humidity: Float? = try container.decode(Float.self, forKey: .humidity)
+        let pressure: Float? = try container.decode(Float.self, forKey: .pressure)
+        let windSpeed: Float? = try container.decode(Float.self, forKey: .windSpeed)
+        let windGust: Float? = try container.decode(Float.self, forKey: .windGust)
+        let windBearing: Int? = try container.decode(Int.self, forKey: .windBearing)
+        let cloudCover: Float? = try container.decode(Float.self, forKey: .cloudCover)
+        let uvIndex: Float? = try container.decode(Float.self, forKey: .uvIndex)
+        let visibility: Float? = try container.decode(Float.self, forKey: .visibility)
+        let ozone: Float? = try container.decode(Float.self, forKey: .ozone)
         
         self.init(
             time: time,
             summary: summary,
             icon: icon,
             nearestStormDistance: nearestStormDistance,
+            nearestStormBearing: nearestStormBearing,
             precipIntensity: precipIntensity,
             precipIntensityError: precipIntensityError,
             precipProbability: precipProbability,
             precipType: precipType,
+            precipAccumulation: precipAccumulation,
             temperature: temperature,
             apparentTemperature: apparentTemperature,
             dewPoint: dewPoint,

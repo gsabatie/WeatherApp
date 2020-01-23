@@ -15,8 +15,8 @@ struct ForecastRequestResponse {
     var longitude: Double
     var timezone: String
     
-    var currently: CurrentlyForecast
-    var daily: [DailyForecast]?
+    var currently: CurrentlyForecastRequestResponse
+    var daily: [DailyForecastRequestResponse]?
     
     enum keys: String, CodingKey {
           case latitude = "latitude"
@@ -42,10 +42,14 @@ extension ForecastRequestResponse:  Decodable {
         let longitude: Double = try container.decode(Double.self, forKey: .longitude)
         let timezone: String = try container.decode(String.self, forKey: .timezone)
         
-        let currently: CurrentlyForecast = try container.decode(CurrentlyForecast.self, forKey: .currently)
+        let currently: CurrentlyForecastRequestResponse =
+            try container.decode(CurrentlyForecastRequestResponse.self, forKey: .currently)
         
       
-        let daily: [DailyForecast]?  = try container.nestedContainer(keyedBy: DailyKeys.self, forKey: .daily).decode([DailyForecast].self, forKey: DailyKeys.data)
+        let daily: [DailyForecastRequestResponse]? =
+            try container
+                .nestedContainer(keyedBy: DailyKeys.self, forKey: .daily)
+                .decode([DailyForecastRequestResponse].self, forKey: DailyKeys.data)
 
         self.init(
             latitude: latitude,

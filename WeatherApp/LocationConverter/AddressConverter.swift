@@ -20,7 +20,7 @@ final class AddressConverter: NSObject {
     
     private var autocompleteBlock: AutoCompletionBlock?
     
-    func convert(
+    func searchLocationFrom(
         address: String,
         completion: @escaping (_ location: CLLocation?, _ error: Error?) -> ()) {
         self.coder.geocodeAddressString(address) {
@@ -38,7 +38,7 @@ final class AddressConverter: NSObject {
     /// - Parameters:
     ///   - location: CLLocation to use to find the locality
     ///   - completion: (_ addresse: String?, _ error: Error?)
-    func name(
+    func searchLocalityFrom(
         location: CLLocation,
         completion: @escaping (_ addresse: String?, _ error: Error?) -> ()) {
         self.coder.reverseGeocodeLocation(location) {
@@ -55,7 +55,11 @@ final class AddressConverter: NSObject {
     }
     
     
-    func locationfrom(
+    /// Function search the closest CLLocation from an instance of MKLocalSearchCompletion
+    /// - Parameters:
+    ///   - localSearchCompletion: MKLocalSearchCompletion
+    ///   - completion: (_ location: CLLocation?, _ error: Error?)
+    func searchLocationfrom(
         localSearchCompletion: MKLocalSearchCompletion,
         completion: @escaping (_ location: CLLocation?, _ error: Error?) -> ())
     {

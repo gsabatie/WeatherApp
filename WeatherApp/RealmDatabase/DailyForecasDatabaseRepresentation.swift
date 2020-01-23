@@ -10,27 +10,26 @@ import Foundation
 import RealmSwift
 
 final class DailyForecasDatabaseRepresentation: Object {
-    @objc dynamic var date: Date = Date()
-    @objc dynamic var summary: String = ""
-    @objc dynamic var minTemperature: Float = 0
-    @objc dynamic var maxTemperature: Float = 0
+    @objc dynamic var date: Date
+    @objc dynamic var summary: String?
     
-    @objc dynamic var iconName: String = ""
+    let minTemperature:  RealmOptional<Float>
+    let maxTemperature:  RealmOptional<Float>
+    
+    @objc dynamic var iconName: String?
     
     init(dailyForecast: Forecast) {
         self.date = dailyForecast.date
         
         self.summary = dailyForecast.summary
-        self.minTemperature = dailyForecast.minTemperature
-        self.maxTemperature = dailyForecast.maxTemperature
+        self.minTemperature = RealmOptional<Float>(dailyForecast.minTemperature)
+        self.maxTemperature =  RealmOptional<Float>(dailyForecast.maxTemperature)
         self.iconName = dailyForecast.iconName
     }
     
     required init() {
         self.date = Date()
-        self.summary = ""
-        self.minTemperature = 0
-        self.maxTemperature = 0
-        self.iconName = ""
+        self.minTemperature = RealmOptional<Float>()
+        self.maxTemperature = RealmOptional<Float>()
     }
 }

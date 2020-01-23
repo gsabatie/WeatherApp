@@ -14,11 +14,8 @@ final class WeatherModuleConfigurator {
           var view: WeatherViewProtocol!
 
           let router = WeatherRouter()
-//          if #available(iOS 13.0.0, *) {
-//              view = WeatherView()
-//          } else {
-              view =  WeatherViewController()
-//          }
+            view =  WeatherViewController()
+
         
           let presenter = WeatherPresenter(router: router, view: view)
           let interactor = WeatherInteractor(output:presenter)
