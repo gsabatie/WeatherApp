@@ -12,8 +12,18 @@ import EasyOSLogger
 
 import Alamofire
 
+//sourcery: AutoMockable
+protocol WeatherService {
+    func getForecast(
+        location: CLLocation,
+        time: Date?,
+        completion: @escaping (_ response: ForecastRequestResponse?, _ error: Error?) -> ()
+    )
+}
+
+
 /// Struct to wrap the DarkSky Api https://darksky.net/dev/docs#overview
-struct DarkSky {
+struct DarkSkyService: WeatherService {
     
     private var secret: String = "9d5bedc2cb85f28bb204dd982cacac41"
     

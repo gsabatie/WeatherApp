@@ -10,7 +10,13 @@ import Foundation
 import RealmSwift
 import EasyOSLogger
 
-struct RealmManager {
+//sourcery: AutoMockable
+protocol DatabaseSerive {
+     func save(forecast: Forecast)
+       func getLatestForecast() -> Forecast?
+}
+
+struct RealmManager: DatabaseSerive {
     
     var realm: Realm? {
         do {

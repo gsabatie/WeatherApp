@@ -17,10 +17,10 @@ final class WeatherInteractor: NSObject {
     weak var output: WeatherInteractorOutputProtocol?
     
     // MARK: Instance Variable
-    let addressConverter: AddressConverter
-    let darkSkyService: DarkSky
+    let addressConverter: AddressFinderService
+    let weatherService: WeatherService
     let locationManager: CLLocationManager
-    let realmManager: RealmManager
+    let realmManager: DatabaseSerive
     
     //MARK: private variable
     private var currentLocation: CLLocation? {
@@ -46,16 +46,21 @@ final class WeatherInteractor: NSObject {
     private var currentLoactionForecastBlock: ForecastBlock?
     
     // MARK: Constructors
-    init(output: WeatherInteractorOutputProtocol? = nil) {
+    init(output: WeatherInteractorOutputProtocol? = nil,
+         weatherService: WeatherService = DarkSkyService(),
+         addressFinderService: AddressFinderService = MapKitAddressFinderService(),
+         databaseService: DatabaseSerive = RealmManager()
+    ) {
         self.output = output
-        self.addressConverter = AddressConverter()
-        self.darkSkyService = DarkSky()
+        self.addressConverter = addressFinderService
+        self.weatherService = weatherService
         self.locationManager = CLLocationManager()
-        self.realmManager = RealmManager()
+        self.realmManager = databaseService
         
         super.init()
         self.locationManager.delegate = self
         self.locationManager.requestWhenInUseAuthorization()
+        
     }
 }
 

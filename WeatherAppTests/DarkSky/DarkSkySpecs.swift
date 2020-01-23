@@ -16,33 +16,28 @@ import CoreLocation
 
 final class DarkSkySpecs: QuickSpec {
     
-    private var darkSky: DarkSky!
+    private var darkSky: DarkSkyService!
     
     override func spec() {
         
         context("Forecast Request") {
             context("lyon weather") {
-                self.darkSky = DarkSky()
+                self.darkSky = DarkSkyService()
                 
-                let lyonCoordinate: CLLocationCoordinate2D
-                    = CLLocationCoordinate2D(latitude: 45.75801, longitude: 4.8001016)
-                
-                it("should respond 400") {
-                    self.darkSky.getForecast(location: lyonCoordinate, time: nil) {
+                let lyonLocation: CLLocation
+                    = CLLocation(latitude: 45.75801, longitude: 4.8001016)
+            
+                it("should have a forecast") {
+                    self.darkSky.getForecast(location: lyonLocation, time: nil) {
                         (response: ForecastRequestResponse? ,error: Error?) in
                         expect(error).to(beNil())
                         expect(response).toNot(beNil())
+                        expect(response?.currently.temperature).notTo(beNil())
+                        expect(response?.currently.summary).notTo(beNil())
                     }
-                }
-                
-                it("should have a forecast") {
-                    
                 }
             }
         }
-        
-        context("TimeMachine Request"){
-            
-        }
+    
     }
 }

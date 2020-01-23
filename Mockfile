@@ -10,3 +10,5 @@ WeatherAppTests:
   - WeatherApp
   import:
   - UIKit
+  - MapKit
+  - CoreLocation
