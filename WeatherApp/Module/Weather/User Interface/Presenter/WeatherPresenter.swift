@@ -28,6 +28,7 @@ final class WeatherPresenter {
     
     // MARK: Instance Methods
     private func presentForecastBlock(forecast: Forecast?, error: Error?) {
+        self.view?.isLoading = false
         guard let forecast: Forecast = forecast, error == nil else {
             if let error: Error = error {
                 self.present(error: error)
@@ -54,16 +55,23 @@ extension WeatherPresenter: WeatherPresentationProtocol {
     }
     
     func presentWeatherFromCurrentLocation() {
+        self.view?.isLoading = true
         self.interactor?.getLatestForecast {
             (forecast: Forecast?, error: Error?) in
-            self.presentForecastBlock(forecast: forecast, error: error)
+            DispatchQueue.main.async {
+                self.presentForecastBlock(forecast: forecast, error: error)
+            }
+            
         }
     }
     
     func presentWeatherFrom(localSearchCompletion: MKLocalSearchCompletion) {
+        self.view?.isLoading = true
         self.interactor?.getForecast(localSearchCompletion: localSearchCompletion) {
             (forecast: Forecast?, error: Error?) in
+              DispatchQueue.main.async {
             self.presentForecastBlock(forecast: forecast, error: error)
+            }
         }
     }
 }

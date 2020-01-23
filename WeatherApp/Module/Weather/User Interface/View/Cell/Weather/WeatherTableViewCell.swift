@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     
     static var nibName: String = "WeatherTableViewCell"
@@ -27,7 +28,7 @@ class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     }
     
     func set(statusText: String) {
-        self.statusLabel.text = statusText
+        self.statusLabel.text = statusText        
     }
     
     func set(leftValueText: String) {

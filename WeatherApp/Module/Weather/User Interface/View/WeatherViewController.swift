@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import JGProgressHUD
 
 import StoryboardLoadable
 
@@ -26,10 +27,29 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     
     private var searchResultsTableController: SearchResultTableViewController!
     
+    private var progresshud = JGProgressHUD(style: .dark) {
+        didSet {
+            progresshud.textLabel.text = "Loading"
+           
+
+        }
+    }
+    
     var forecast: Forecast? {
         didSet {
             self.title = self.forecast?.locality
             self.tableView.reloadData()
+        }
+    }
+    
+    var isLoading: Bool = false {
+        didSet {
+            if self.isLoading {
+                self.progresshud.show(in: self.view)
+            } else {
+             self.progresshud.dismiss(animated: true)
+            }
+           // self.tableView.reloadData()
         }
     }
     
@@ -53,7 +73,6 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             UIColor(red: 0, green: 51/255, blue: 115/255, alpha: 1.0).cgColor,
             UIColor(red: 0, green: 115/255, blue: 164/255, alpha: 1.0).cgColor
         ]
-        
         self.view.layer.insertSublayer(gradientLayer, at: 0)
         
         self.configureNavigationController()
@@ -83,14 +102,17 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         self.searchResultsTableController.delegate = self
         
         self.searchController = UISearchController(searchResultsController: self.searchResultsTableController)
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Locality"
-        searchController.searchResultsUpdater = self
-        navigationItem.searchController = searchController
+        self.searchController.obscuresBackgroundDuringPresentation = false
+        self.searchController.searchBar.barTintColor = UIColor.white
+        self.searchController.searchBar.iconTintColor = UIColor.white
+        self.searchController.searchBar.placeholder = "Locality"
+        self.searchController.searchResultsUpdater = self
+        self.navigationItem.searchController = searchController
     }
     
     func configureNavigationController() {
         self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -112,11 +134,12 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         }
     }
     
+    
     func configure(cell: inout WeatherTableViewCell, forecast: Forecast) {
         if let minTemperature: Float = forecast.minTemperature {
             cell.set(leftValueText: "\(Int(minTemperature))")
         }
-        if let maxTemperature: Float = forecast.minTemperature {
+        if let maxTemperature: Float = forecast.maxTemperature {
             cell.set(rightValueText: "\(Int(maxTemperature))")
         }
         cell.set(statusText: self.dateFormatter.string(from: forecast.date))
@@ -181,6 +204,7 @@ extension WeatherViewController: UITableViewDataSource {
             let bigWeathercell = self.tableView.dequeueReusableCell(withIdentifier: BigWeatherTableViewCell.identifier, for: indexPath)
             if var bigWeatherCell: BigWeatherTableViewCell = bigWeathercell as? BigWeatherTableViewCell {
                 self.configure(cell: &bigWeatherCell, forecast: forecast)
+                
                 return bigWeatherCell
             }
         }
@@ -222,13 +246,39 @@ extension WeatherViewController: SearchResultTableViewControllerDelegate {
         _ searchResultTableViewController: SearchResultTableViewController,
         localSearchCompletion: MKLocalSearchCompletion
     ) {
-        self.navigationItem.searchController?.dismiss(animated: true, completion: nil)
-        self.navigationItem.searchController?.searchBar.searchTextField.text = ""
-        self.output?
+        self.navigationItem.searchController?.dismiss(animated: true) {
+            self.navigationItem.searchController?.searchBar.searchTextField.text = ""
+           self.output?
             .didSelect(
                 searchResultTableViewController,
                 localSearchCompletion: localSearchCompletion)
-    }
+        }
+        
+        }
 }
 
+private extension UISearchBar {
+    var iconTintColor: UIColor? {
+        
+        get {
+            if let textfield: UITextField = self.value(forKey: "searchField") as? UITextField {
+                if let leftView = textfield.leftView as? UIImageView {
+                    return leftView.tintColor
+                }
+            }
+            return nil
+        }
+        
+        set {
+            if let color: UIColor = newValue,
+                let textfield: UITextField = self.value(forKey: "searchField") as? UITextField {
+                if let leftView = textfield.leftView as? UIImageView {
+                    leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
+                    leftView.tintColor = color
+                }
+            }
+        }
+        
+    }
+}
 

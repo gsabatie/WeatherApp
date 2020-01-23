@@ -21,6 +21,8 @@ protocol WeatherViewProtocol: class{
     
     var matchedAddresses: [MKLocalSearchCompletion]? {get set}
     
+    var isLoading: Bool { get set }
+    
     func display(errorMessage: String)
 
 }

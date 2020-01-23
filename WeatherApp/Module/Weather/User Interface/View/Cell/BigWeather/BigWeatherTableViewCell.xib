@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="214"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Rainy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pk3-de-UMW">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rainy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pk3-de-UMW">
                         <rect key="frame" x="16" y="136" width="288" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="j4r-3N-a8h"/>
@@ -24,12 +24,18 @@
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </label>
-                    <label opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="11°" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AoJ-sf-Jxd">
+                    <label opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11°" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AoJ-sf-Jxd">
                         <rect key="frame" x="105" y="24" width="130" height="111"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="93"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </label>
                 </subviews>
                 <constraints>
@@ -37,6 +43,7 @@
                     <constraint firstItem="pk3-de-UMW" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="HtR-Lf-6Sd"/>
                     <constraint firstItem="pk3-de-UMW" firstAttribute="top" secondItem="AoJ-sf-Jxd" secondAttribute="bottom" constant="1" id="dJH-UB-EIU"/>
                     <constraint firstItem="pk3-de-UMW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="fRD-y7-ni4"/>
+                    <constraint firstItem="AoJ-sf-Jxd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="kOX-fa-P2D"/>
                     <constraint firstItem="AoJ-sf-Jxd" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" constant="10" id="u6P-pI-ure"/>
                 </constraints>
             </tableViewCellContentView>

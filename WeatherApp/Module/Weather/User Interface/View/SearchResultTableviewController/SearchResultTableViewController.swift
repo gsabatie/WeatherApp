@@ -15,8 +15,8 @@ protocol SearchResultTableViewControllerDelegate {
         localSearchCompletion: MKLocalSearchCompletion)
 }
 
-class SearchResultTableViewController: UITableViewController {
-
+class SearchResultTableViewController: UIViewController {
+    
     var addresses: [MKLocalSearchCompletion] = [MKLocalSearchCompletion]() {
         didSet {
             self.tableView.reloadData()
@@ -25,44 +25,51 @@ class SearchResultTableViewController: UITableViewController {
     
     var delegate: SearchResultTableViewControllerDelegate?
     
+    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+        self.view.backgroundColor = UIColor.clear
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView()
         
         SearchResultTableViewCell.register(tableView: &self.tableView)
-
     }
+}
 
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
+// MARK: - Extension UITableViewDatasource
+extension SearchResultTableViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return addresses.count
     }
-
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier, for: indexPath)
         
         if let searchResultCell: SearchResultTableViewCell = cell as? SearchResultTableViewCell {
-        let localSearchCompletion: MKLocalSearchCompletion = self.addresses[indexPath.row]
+            let localSearchCompletion: MKLocalSearchCompletion = self.addresses[indexPath.row]
             searchResultCell.set(
                 mainLabelText: localSearchCompletion.title,
                 range: localSearchCompletion.titleHighlightRanges)
             return searchResultCell
         }
-         
-        
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+}
+
+// MARK: - Extension UItableViewDelegate
+extension SearchResultTableViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let localSearchCompletion: MKLocalSearchCompletion = self.addresses[indexPath.row]
         self.delegate?.didSelect(self, localSearchCompletion: localSearchCompletion)
     }
 }
+
+

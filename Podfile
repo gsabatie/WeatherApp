@@ -4,12 +4,15 @@
 target 'WeatherApp' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
+  
+  platform :ios, '13.0'
 
   # Pods for WeatherApp
   pod 'StoryboardLoadable', '0.8.0'
   pod 'Alamofire', '4.8.2'
   pod 'EasyOSLogger', '0.1.1'
   pod 'RealmSwift', '4.3.1'
+  pod 'JGProgressHUD', '2.1'
 
   target 'WeatherAppTests' do
     inherit! :search_paths
