@@ -9,7 +9,7 @@
 import UIKit
 
 
-class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
+final class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     
     static var nibName: String = "WeatherTableViewCell"
     static var identifier: String = "WeatherTableViewCell"
@@ -21,7 +21,7 @@ class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     
     @IBOutlet weak private var iconImageView: UIImageView!
     
-    override  func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = UIColor.clear
         self.iconImageView.tintColor = UIColor.white

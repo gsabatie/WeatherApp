@@ -69,8 +69,8 @@ extension WeatherPresenter: WeatherPresentationProtocol {
         self.view?.isLoading = true
         self.interactor?.getForecast(localSearchCompletion: localSearchCompletion) {
             (forecast: Forecast?, error: Error?) in
-              DispatchQueue.main.async {
-            self.presentForecastBlock(forecast: forecast, error: error)
+            DispatchQueue.main.async {
+                self.presentForecastBlock(forecast: forecast, error: error)
             }
         }
     }
@@ -83,8 +83,7 @@ extension WeatherPresenter: WeatherInteractorOutputProtocol {
 
 // MARK: WeatherViewEventResponderProtocol
 extension WeatherPresenter: WeatherViewEventResponderProtocol {
-    
-    
+
     func searchLocality(text: String) {
         isSearchModeActivated = true
         self.interactor?.getMatchedLocalitiesFrom(text: text) {
@@ -93,7 +92,9 @@ extension WeatherPresenter: WeatherViewEventResponderProtocol {
         }
     }
     
-    func didSelect(_ searchResultTableViewController: SearchResultTableViewController, localSearchCompletion: MKLocalSearchCompletion) {
+    func didSelect(
+        _ searchResultTableViewController: SearchResultTableViewController,
+        localSearchCompletion: MKLocalSearchCompletion) {
         self.presentWeatherFrom(localSearchCompletion: localSearchCompletion)
     }
     
@@ -109,7 +110,6 @@ extension WeatherPresenter: WeatherViewEventResponderProtocol {
     }
     
     func viewWillAppear() {
-        
         self.presentWeatherFromCurrentLocation()
     }
 }

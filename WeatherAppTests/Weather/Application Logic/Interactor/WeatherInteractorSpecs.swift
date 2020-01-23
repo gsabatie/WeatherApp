@@ -40,12 +40,16 @@ final class WeatherInteractorSpecs: QuickSpec {
                 
                 
                 it("should call the adressFinderService") {
-                    self.interactor.getMatchedLocalitiesFrom(text: "San") { (localSearhCompletions: [MKLocalSearchCompletion]?, error: Error?) in
-                        Verify(self.addressFinderServiceMock, .autoComplete(locality: .value("San"), completion: .any))
+                    self.interactor.getMatchedLocalitiesFrom(text: "San") {
+                        (localSearhCompletions: [MKLocalSearchCompletion]?, error: Error?) in
+                        Verify(
+                            self.addressFinderServiceMock,
+                            .autoComplete(locality: .value("San"),completion: .any))
                     }
                 }
                 it("should find several address") {
-                    self.interactor.getMatchedLocalitiesFrom(text: "San") { (localSearhCompletions: [MKLocalSearchCompletion]?, error: Error?) in
+                    self.interactor.getMatchedLocalitiesFrom(text: "San") {
+                        (localSearhCompletions: [MKLocalSearchCompletion]?, error: Error?) in
                         expect(error).to(beNil())
                         expect(localSearhCompletions?.isEmpty) == false
                         expect(localSearhCompletions?.count) >= 1
@@ -120,7 +124,10 @@ extension WeatherInteractor {
 private extension Forecast {
     static var mock: Forecast {
         let date = Date()
-        return Forecast(dailyForcastResponse: DailyForecastRequestResponse(time: date.timeIntervalSince1970, summary: "weather test"))
+        return Forecast(
+            dailyForcastResponse: DailyForecastRequestResponse(
+                time: date.timeIntervalSince1970,
+                summary: "weather test"))
     }
 }
 private extension DatabaseSeriveMock {

@@ -59,7 +59,6 @@ final class MapKitAddressFinderService: NSObject, AddressFinderService {
                 completion(nil, error)
                 return
             }
-            
             completion(placemark.location, nil)
         }
     }
@@ -74,7 +73,6 @@ final class MapKitAddressFinderService: NSObject, AddressFinderService {
                 completion(nil, error)
                 return
             }
-            
             let localities: [String] = placemarks.compactMap { $0.locality }
             
             completion(localities.first, nil)

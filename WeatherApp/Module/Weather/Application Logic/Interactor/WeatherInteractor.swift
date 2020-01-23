@@ -96,15 +96,14 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
     }
     
     func getForecast(locality: String, completion: @escaping ForecastBlock) {
-        self.addressConverter.searchLocationFrom(address: locality) { (location: CLLocation?, error: Error?) in
+        self.addressConverter.searchLocationFrom(address: locality) {
+            (location: CLLocation?, error: Error?) in
             guard let location: CLLocation = location, error == nil else {
                 completion(nil, error)
                 return
             }
             self.getForecast(location: location, completion: completion)
         }
-        
-        
     }
     
     func getForecast(
@@ -135,13 +134,13 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
                 (locality: String?, error: Error?) in
                 if let error = error {
                     Log.error(error.localizedDescription)
-                      completion(nil, error)
+                    completion(nil, error)
                     return
                 }
                 if let locality = locality  {
                     forecast.locality = locality
-                self.realmManager.save(forecast: forecast)
-                completion(forecast, nil)
+                    self.realmManager.save(forecast: forecast)
+                    completion(forecast, nil)
                     return
                 }
             }

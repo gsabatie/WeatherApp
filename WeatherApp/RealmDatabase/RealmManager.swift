@@ -35,7 +35,6 @@ struct RealmManager: DatabaseSerive {
         try? realm.write {
             realm.deleteAll()
             realm.add(forecastDB)
-            
         }
     }
     

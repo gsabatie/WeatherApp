@@ -17,8 +17,8 @@ struct Forecast {
     var minTemperature: Float?
     var maxTemperature: Float?
     var currentTemperature: Float?
-    
     var apparentTemperature: Float?
+    
     var dewPoint: Float?
     var humidity: Float?
     var pressure: Float?

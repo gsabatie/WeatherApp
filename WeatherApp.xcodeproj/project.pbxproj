@@ -26,7 +26,6 @@
 		365D23B323CE7C8600BC6B81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 365D23B123CE7C8600BC6B81 /* Main.storyboard */; };
 		365D23B523CE7C8900BC6B81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 365D23B423CE7C8900BC6B81 /* Assets.xcassets */; };
 		365D23B823CE7C8900BC6B81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 365D23B623CE7C8900BC6B81 /* LaunchScreen.storyboard */; };
-		365D23C323CE7C8A00BC6B81 /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365D23C223CE7C8A00BC6B81 /* WeatherAppTests.swift */; };
 		365D23CE23CE7C8A00BC6B81 /* WeatherAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365D23CD23CE7C8A00BC6B81 /* WeatherAppUITests.swift */; };
 		365D23DC23CE97FE00BC6B81 /* DarkSkyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365D23DB23CE97FE00BC6B81 /* DarkSkyService.swift */; };
 		365D23DF23CE98C600BC6B81 /* DarkSkyApiRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 365D23DE23CE98C600BC6B81 /* DarkSkyApiRouter.swift */; };
@@ -100,7 +99,6 @@
 		365D23B723CE7C8900BC6B81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		365D23B923CE7C8900BC6B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		365D23BE23CE7C8A00BC6B81 /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		365D23C223CE7C8A00BC6B81 /* WeatherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppTests.swift; sourceTree = "<group>"; };
 		365D23C423CE7C8A00BC6B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		365D23C923CE7C8A00BC6B81 /* WeatherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		365D23CD23CE7C8A00BC6B81 /* WeatherAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppUITests.swift; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 				3694830223CFE22400AF3A4D /* Mock.generated.swift */,
 				3694830B23D133B700AF3A4D /* AddressConverterSpecs.swift */,
 				36C5638523CEA319005532C1 /* DarkSky */,
-				365D23C223CE7C8A00BC6B81 /* WeatherAppTests.swift */,
 				365D23C423CE7C8A00BC6B81 /* Info.plist */,
 				2B9A35C3EEC3235002D10F88 /* Weather */,
 			);
@@ -788,7 +785,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				365D23C323CE7C8A00BC6B81 /* WeatherAppTests.swift in Sources */,
 				3694830323CFE22400AF3A4D /* Mock.generated.swift in Sources */,
 				3694830C23D133B700AF3A4D /* AddressConverterSpecs.swift in Sources */,
 				089D564F994F2CAE1390285B /* WeatherviewcontrollerSpecs.swift in Sources */,

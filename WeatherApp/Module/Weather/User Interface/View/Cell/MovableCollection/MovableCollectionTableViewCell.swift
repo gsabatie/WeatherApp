@@ -9,7 +9,7 @@
 import UIKit
 
 
-class MovableCollectionTableViewCell: UITableViewCell, UITableViewCellRegistrable {
+final class MovableCollectionTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     
     static var identifier: String = "MovableCollectionTableViewCell"
     static var nibName: String = "MovableCollectionTableViewCell"

@@ -8,8 +8,8 @@
 
 import UIKit
 
-class SearchResultTableViewCell: UITableViewCell, UITableViewCellRegistrable {
-
+final class SearchResultTableViewCell: UITableViewCell, UITableViewCellRegistrable {
+    
     static var nibName: String = "SearchResultTableViewCell"
     static var identifier: String = "SearchResultTableViewCell"
     
@@ -20,14 +20,8 @@ class SearchResultTableViewCell: UITableViewCell, UITableViewCellRegistrable {
         super.awakeFromNib()
         self.backgroundColor = UIColor.clear
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
-    func set(mainLabelText: String, range:  [NSValue]) {
+    func set(mainLabelText: String, range: [NSValue]) {
         
         let attributedText = NSMutableAttributedString(string: mainLabelText)
         attributedText.highlightTarget(range: range, color: UIColor.white)
@@ -37,14 +31,13 @@ class SearchResultTableViewCell: UITableViewCell, UITableViewCellRegistrable {
 
 
 private extension NSMutableAttributedString {
-    func highlightTarget(range:  [NSValue], color: UIColor){
-
+    func highlightTarget(range:  [NSValue], color: UIColor) {
         if !range.isEmpty {
-        self.addAttribute(
-            NSAttributedString.Key.foregroundColor,
-            value: color,
-            range: range[0].rangeValue)
+            self.addAttribute(
+                NSAttributedString.Key.foregroundColor,
+                value: color,
+                range: range[0].rangeValue)
         }
-            
+        
     }
 }

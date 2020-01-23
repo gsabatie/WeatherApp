@@ -9,13 +9,16 @@
 import UIKit
 import MapKit
 
-protocol SearchResultTableViewControllerDelegate {
+protocol SearchResultTableViewControllerDelegate: class {
     func didSelect(
         _ searchResultTableViewController: SearchResultTableViewController,
         localSearchCompletion: MKLocalSearchCompletion)
 }
 
-class SearchResultTableViewController: UIViewController {
+final class SearchResultTableViewController: UIViewController {
+    
+    // MARK: IBOutlet
+    @IBOutlet weak var tableView: UITableView!
     
     var addresses: [MKLocalSearchCompletion] = [MKLocalSearchCompletion]() {
         didSet {
@@ -23,9 +26,9 @@ class SearchResultTableViewController: UIViewController {
         }
     }
     
-    var delegate: SearchResultTableViewControllerDelegate?
+    weak var delegate: SearchResultTableViewControllerDelegate?
     
-    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,17 +44,18 @@ class SearchResultTableViewController: UIViewController {
 // MARK: - Extension UITableViewDatasource
 extension SearchResultTableViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
+    func numberOfSections(in tableView: UITableView) -> Int { return 1 }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return addresses.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier, for: indexPath)
+        let cell: UITableViewCell =
+            tableView
+                .dequeueReusableCell(
+                    withIdentifier: SearchResultTableViewCell.identifier,
+                    for: indexPath)
         
         if let searchResultCell: SearchResultTableViewCell = cell as? SearchResultTableViewCell {
             let localSearchCompletion: MKLocalSearchCompletion = self.addresses[indexPath.row]

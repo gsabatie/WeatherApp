@@ -13,6 +13,11 @@ import JGProgressHUD
 import StoryboardLoadable
 
 final class WeatherViewController: UIViewController, StoryboardLoadable {
+    enum Section: Int, CaseIterable {
+        case temperature = 0
+        case extraForecastInfo = 1
+        case dailyForecast = 2
+    }
     
     // MARK: Dependency inversion variable 
     var output: WeatherViewEventResponderProtocol?
@@ -22,18 +27,6 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     
     // MARK: Instance variable
     var dateFormatter:DateFormatter = DateFormatter()
-    
-    private var searchController: UISearchController!
-    
-    private var searchResultsTableController: SearchResultTableViewController!
-    
-    private var progresshud = JGProgressHUD(style: .dark) {
-        didSet {
-            progresshud.textLabel.text = "Loading"
-           
-
-        }
-    }
     
     var forecast: Forecast? {
         didSet {
@@ -54,7 +47,7 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             if self.isLoading {
                 self.progresshud.show(in: self.view)
             } else {
-             self.progresshud.dismiss(animated: true)
+                self.progresshud.dismiss(animated: true)
             }
         }
     }
@@ -68,6 +61,14 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             }
         }
     }
+    
+    // MARK: private variable
+    private var searchController: UISearchController!
+    
+    private var searchResultsTableController: SearchResultTableViewController!
+    
+    private var progresshud = JGProgressHUD(style: .dark)
+    
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -85,13 +86,15 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         
         self.initializeSearchController()
         
+        self.progresshud.textLabel.text = "Loading"
+        
+        self.dateFormatter.dateFormat = "EEEE"
+        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         BigWeatherTableViewCell.register(tableView: &self.tableView)
         WeatherTableViewCell.register(tableView: &self.tableView)
         MovableCollectionTableViewCell.register(tableView: &self.tableView)
-        
-        self.dateFormatter.dateFormat = "EEEE"
         
         self.output?.viewDidLoad()
     }
@@ -105,10 +108,13 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     
     func initializeSearchController() {
         self.searchResultsTableController =
-            self.storyboard?.instantiateViewController(withIdentifier: "SearchResultTableViewController") as? SearchResultTableViewController
+            self.storyboard?
+                .instantiateViewController(withIdentifier: "SearchResultTableViewController")
+            as? SearchResultTableViewController
         self.searchResultsTableController.delegate = self
         
-        self.searchController = UISearchController(searchResultsController: self.searchResultsTableController)
+        self.searchController =
+            UISearchController(searchResultsController: self.searchResultsTableController)
         self.searchController.obscuresBackgroundDuringPresentation = false
         self.searchController.searchBar.barTintColor = UIColor.white
         self.searchController.searchBar.iconTintColor = UIColor.white
@@ -181,19 +187,19 @@ extension WeatherViewController: UITableViewDelegate {
 extension WeatherViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return Section.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0:
+        case Section.temperature.rawValue:
             return 1
-        case 1:
+        case Section.extraForecastInfo.rawValue:
             guard self.forecastInfos != nil else {
                 return 0
             }
             return 1
-        case 2:
+        case Section.dailyForecast.rawValue:
             guard let dailyForecast: [Forecast] = self.forecast?.nextDailyForecasts else {
                 return 0
             }
@@ -205,9 +211,9 @@ extension WeatherViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
-        case 0:
+        case Section.temperature.rawValue:
             return 214.0
-        case 1:
+        case Section.extraForecastInfo.rawValue:
             return 90.0
         default:
             return 40.0
@@ -215,7 +221,7 @@ extension WeatherViewController: UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
+        if indexPath.section == Section.temperature.rawValue {
             let bigWeathercell = self.tableView.dequeueReusableCell(withIdentifier: BigWeatherTableViewCell.identifier, for: indexPath)
             if var bigWeatherCell: BigWeatherTableViewCell = bigWeathercell as? BigWeatherTableViewCell {
                 self.configure(cell: &bigWeatherCell, forecast: forecast)
@@ -224,11 +230,11 @@ extension WeatherViewController: UITableViewDataSource {
             }
         }
         
-         if indexPath.section == 1 {
+        if indexPath.section == Section.extraForecastInfo.rawValue {
             let cell =
                 self.tableView
-                               .dequeueReusableCell(
-                                   withIdentifier: MovableCollectionTableViewCell.identifier, for: indexPath)
+                    .dequeueReusableCell(
+                        withIdentifier: MovableCollectionTableViewCell.identifier, for: indexPath)
             if let forecastInfos: [ForecastInfo] = self.forecastInfos,
                 let movableCollectionTableViewCell = cell as? MovableCollectionTableViewCell {
                 movableCollectionTableViewCell.forecastInfos = forecastInfos
@@ -236,7 +242,7 @@ extension WeatherViewController: UITableViewDataSource {
             }
         }
         
-        if indexPath.section == 2 {
+        if indexPath.section == Section.dailyForecast.rawValue {
             let weatherCell =
                 self.tableView
                     .dequeueReusableCell(
@@ -275,13 +281,13 @@ extension WeatherViewController: SearchResultTableViewControllerDelegate {
     ) {
         self.navigationItem.searchController?.dismiss(animated: true) {
             self.navigationItem.searchController?.searchBar.searchTextField.text = ""
-           self.output?
-            .didSelect(
-                searchResultTableViewController,
-                localSearchCompletion: localSearchCompletion)
+            self.output?
+                .didSelect(
+                    searchResultTableViewController,
+                    localSearchCompletion: localSearchCompletion)
         }
         
-        }
+    }
 }
 
 private extension UISearchBar {

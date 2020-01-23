@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BigWeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
+final class BigWeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     
     static var nibName: String = "BigWeatherTableViewCell"
     static var identifier: String = "BigWeatherTableViewCell"
