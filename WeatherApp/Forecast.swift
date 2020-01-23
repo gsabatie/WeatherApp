@@ -87,6 +87,18 @@ struct Forecast {
         self.summary = forecastFromDB.summary
         self.currentTemperature = forecastFromDB.currentTemperature.value
         
+        self.apparentTemperature = forecastFromDB.apparentTemperature.value
+        self.dewPoint = forecastFromDB.dewPoint.value
+        self.humidity = forecastFromDB.humidity.value
+        self.pressure = forecastFromDB.pressure.value
+        self.windSpeed = forecastFromDB.windSpeed.value
+        self.windGust = forecastFromDB.windGust.value
+        self.windBearing = forecastFromDB.windBearing.value
+        self.cloudCover = forecastFromDB.cloudCover.value
+        self.uvIndex = forecastFromDB.uvIndex.value
+        self.visibility = forecastFromDB.visibility.value
+        self.ozone = forecastFromDB.ozone.value
+        
         if !forecastFromDB.nextDailyForecasts.isEmpty {
             self.nextDailyForecasts = [Forecast]()
             forecastFromDB.nextDailyForecasts.forEach {

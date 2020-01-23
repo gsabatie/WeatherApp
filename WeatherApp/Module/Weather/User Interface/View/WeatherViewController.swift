@@ -176,6 +176,7 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
 extension WeatherViewController: WeatherViewProtocol {
     
     func display(errorMessage: String) {
+        self.errorAlertController.message = errorMessage
         self.present(self.errorAlertController, animated: true, completion: nil)
     }
 }

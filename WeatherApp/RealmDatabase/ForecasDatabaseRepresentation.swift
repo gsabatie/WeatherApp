@@ -55,8 +55,6 @@ final class ForecasDatabaseRepresentation: Object {
         self.visibility.value = forecast.visibility
         self.ozone.value = forecast.ozone
         
-        
-        
         forecast.nextDailyForecasts?.forEach {
             self.nextDailyForecasts
                 .append(DailyForecasDatabaseRepresentation(dailyForecast: $0))
