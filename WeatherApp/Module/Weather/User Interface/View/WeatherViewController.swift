@@ -69,6 +69,9 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
     
     private var progresshud = JGProgressHUD(style: .dark)
     
+    private var errorAlertController: UIAlertController =
+        UIAlertController(title: "Error", message: nil, preferredStyle: .alert)
+    
     
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -87,6 +90,11 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         self.initializeSearchController()
         
         self.progresshud.textLabel.text = "Loading"
+        
+        self.errorAlertController.addAction(UIAlertAction(title: "Ok", style: .default) {
+            (allertAction: UIAlertAction) in
+            self.errorAlertController.dismiss(animated: true, completion: nil)
+        })
         
         self.dateFormatter.dateFormat = "EEEE"
         
@@ -162,20 +170,14 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             cell.set(iconImage: image)
         }
     }
-    func configureCellsWithPlaceholder() {
-        
-    }
 }
 
 // MARK: WeatherViewProtocol
 extension WeatherViewController: WeatherViewProtocol {
     
-    
     func display(errorMessage: String) {
-        
+        self.present(self.errorAlertController, animated: true, completion: nil)
     }
-    
-    
 }
 
 // MARK: - Extension UITableDelegate
