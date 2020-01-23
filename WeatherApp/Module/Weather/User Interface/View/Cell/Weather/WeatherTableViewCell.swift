@@ -38,8 +38,8 @@ class WeatherTableViewCell: UITableViewCell, UITableViewCellRegistrable {
     func set(rightValueText: String) {
         self.rightValueLabel.text = rightValueText
     }
+    
     func set(iconImage: UIImage) {
-
         self.iconImageView.image = iconImage.withRenderingMode(.alwaysTemplate)
     }
 }

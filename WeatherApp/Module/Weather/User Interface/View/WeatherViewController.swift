@@ -42,6 +42,13 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         }
     }
     
+    var forecastInfos: [ForecastInfo]? {
+        if let forecast: Forecast = self.forecast {
+            return ForecastInfo.transform(forecast: forecast)
+        }
+        return nil
+    }
+    
     var isLoading: Bool = false {
         didSet {
             if self.isLoading {
@@ -49,7 +56,6 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
             } else {
              self.progresshud.dismiss(animated: true)
             }
-           // self.tableView.reloadData()
         }
     }
     
@@ -83,6 +89,7 @@ final class WeatherViewController: UIViewController, StoryboardLoadable {
         self.tableView.dataSource = self
         BigWeatherTableViewCell.register(tableView: &self.tableView)
         WeatherTableViewCell.register(tableView: &self.tableView)
+        MovableCollectionTableViewCell.register(tableView: &self.tableView)
         
         self.dateFormatter.dateFormat = "EEEE"
         
@@ -174,7 +181,7 @@ extension WeatherViewController: UITableViewDelegate {
 extension WeatherViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -182,6 +189,11 @@ extension WeatherViewController: UITableViewDataSource {
         case 0:
             return 1
         case 1:
+            guard self.forecastInfos != nil else {
+                return 0
+            }
+            return 1
+        case 2:
             guard let dailyForecast: [Forecast] = self.forecast?.nextDailyForecasts else {
                 return 0
             }
@@ -190,10 +202,13 @@ extension WeatherViewController: UITableViewDataSource {
             return 0
         }
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath {
-        case IndexPath(row: 0, section: 0):
+        switch indexPath.section {
+        case 0:
             return 214.0
+        case 1:
+            return 90.0
         default:
             return 40.0
         }
@@ -209,7 +224,19 @@ extension WeatherViewController: UITableViewDataSource {
             }
         }
         
-        if indexPath.section == 1 {
+         if indexPath.section == 1 {
+            let cell =
+                self.tableView
+                               .dequeueReusableCell(
+                                   withIdentifier: MovableCollectionTableViewCell.identifier, for: indexPath)
+            if let forecastInfos: [ForecastInfo] = self.forecastInfos,
+                let movableCollectionTableViewCell = cell as? MovableCollectionTableViewCell {
+                movableCollectionTableViewCell.forecastInfos = forecastInfos
+                return movableCollectionTableViewCell
+            }
+        }
+        
+        if indexPath.section == 2 {
             let weatherCell =
                 self.tableView
                     .dequeueReusableCell(

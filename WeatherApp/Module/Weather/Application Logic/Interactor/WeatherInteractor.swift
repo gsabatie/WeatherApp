@@ -122,7 +122,7 @@ extension WeatherInteractor: WeatherUseCaseProtocol {
     }
     
     func getForecast(location: CLLocation, completion: @escaping ForecastBlock) {
-        self.darkSkyService.getForecast(location: location, time: nil) {
+        self.weatherService.getForecast(location: location, time: nil) {
             (forecastResponse: ForecastRequestResponse?, error: Error?) in
             guard let forecastResponse: ForecastRequestResponse = forecastResponse,
                 error == nil else

@@ -18,6 +18,18 @@ struct Forecast {
     var maxTemperature: Float?
     var currentTemperature: Float?
     
+    var apparentTemperature: Float?
+    var dewPoint: Float?
+    var humidity: Float?
+    var pressure: Float?
+    var windSpeed: Float?
+    var windGust: Float?
+    var windBearing: Int?
+    var cloudCover: Float?
+    var uvIndex: Float?
+    var visibility: Float?
+    var ozone: Float?
+    
     var iconName: String?
     
     var nextHourlyForecasts: [Forecast]?
@@ -36,6 +48,18 @@ struct Forecast {
             CLLocationCoordinate2D(latitude: forecastRequestResponse.latitude, longitude: forecastRequestResponse.longitude)
         self.currentTemperature = forecastRequestResponse.currently.temperature
         self.summary = forecastRequestResponse.currently.summary
+        
+        self.apparentTemperature = forecastRequestResponse.currently.apparentTemperature
+        self.dewPoint = forecastRequestResponse.currently.dewPoint
+        self.humidity = forecastRequestResponse.currently.humidity
+        self.pressure = forecastRequestResponse.currently.pressure
+        self.windSpeed = forecastRequestResponse.currently.windSpeed
+        self.windGust = forecastRequestResponse.currently.windGust
+        self.windBearing = forecastRequestResponse.currently.windBearing
+        self.cloudCover = forecastRequestResponse.currently.cloudCover
+        self.uvIndex = forecastRequestResponse.currently.uvIndex
+        self.visibility = forecastRequestResponse.currently.visibility
+        self.ozone = forecastRequestResponse.currently.ozone
         
         self.nextDailyForecasts =
             forecastRequestResponse.daily?.compactMap {
